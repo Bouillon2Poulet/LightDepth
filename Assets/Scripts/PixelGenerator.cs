@@ -28,7 +28,10 @@ public class PixelGenerator : MonoBehaviour
         
         GameObject[] pixels = new GameObject[(int)imageDimension.x * (int)imageDimension.y];
         GameObject[] UP_WALL = new GameObject[(int)imageDimension.x * (int)imageDimension.y];
+        GameObject[] DOWN_WALL = new GameObject[(int)imageDimension.x];
         GameObject[] LEFT_WALL = new GameObject[(int)imageDimension.x * (int)imageDimension.y];
+        GameObject[] RIGHT_WALL = new GameObject[(int)imageDimension.y];
+
 
         int pixelCount = 0;
         for(int i=0; i<imageDimension.y; i++)
@@ -39,18 +42,17 @@ public class PixelGenerator : MonoBehaviour
                 pixels[pixelCount] = GameObject.CreatePrimitive(PrimitiveType.Plane);
                 pixels[pixelCount].transform.parent = this.gameObject.transform;
 
-                Debug.Log("Creating pixel x="+(imageDimension.x-j).ToString()+" y="+(imageDimension.y-i).ToString());
+                Debug.Log("Creating pixel x="+(j+1).ToString()+" y="+(i+1).ToString());
                 
-                // float height = image.GetPixel((int)imageDimension.x-j,(int)imageDimension.y-i).grayscale;
-                float height = image.GetPixel(j+1,i+1).grayscale;
+                float height = image.GetPixel(j,(int)imageDimension.y-i-1).grayscale; //Start at bottom left
 
                 Debug.Log(((areaDimension.y*10/2f)-(i+0.5f)*offset).ToString());
-                int horizontalFactor = (imageDimension.y>imageDimension.x)? -1 : 1;
-                pixels[pixelCount].transform.position = new Vector3(horizontalFactor*-1f*(areaDimension.x*10/2f)+horizontalFactor*(j+0.5f)*offset,height,(areaDimension.y*10/2f)-(i+0.5f)*offset);
+                int horizontalFactor = 1;
+                pixels[pixelCount].transform.position = new Vector3(-1f*(areaDimension.x*10/2f)+(j+0.5f)*offset,height,(areaDimension.y*10/2f)-(i+0.5f)*offset);
                 pixels[pixelCount].transform.localScale = new Vector3(pixelWidth,1,pixelWidth);
 
                 Material pixelMaterial = new Material(Shader.Find("Custom/DoubleSidedShader"));
-                pixelMaterial.color = image.GetPixel(j+1,i+1);
+                pixelMaterial.color = image.GetPixel(j,(int)imageDimension.y-i-1);
                 pixels[pixelCount].GetComponent<Renderer>().material = pixelMaterial;
 
                 //UP WALL
@@ -70,13 +72,25 @@ public class PixelGenerator : MonoBehaviour
                 float leftWallHeight = Mathf.Abs(pixels[pixelCount].transform.position.y - leftPixelYPosition);
                 bool isCurrentPixelOverLeftPixel = (pixels[pixelCount].transform.position.y > leftPixelYPosition) ? true : false;
                 float movingFactorLeft = isCurrentPixelOverLeftPixel? -1f : 1f;
-                LEFT_WALL[pixelCount].transform.position = pixels[pixelCount].transform.position + new Vector3(offset/2f,movingFactorLeft*leftWallHeight/2f,0);
+                LEFT_WALL[pixelCount].transform.position = pixels[pixelCount].transform.position + new Vector3(-offset/2f,movingFactorLeft*leftWallHeight/2f,0);
                 LEFT_WALL[pixelCount].transform.localScale = new Vector3(pixelWidth,1,leftWallHeight/10f);
-                float YRotationLeft = (isCurrentPixelOverLeftPixel)? 180f : 0f;
+                float YRotationLeft = (!isCurrentPixelOverLeftPixel)? 180f : 0f;
                 LEFT_WALL[pixelCount].transform.Rotate(new Vector3(90,YRotationLeft,90),Space.World);
 
+                if(i==imageDimension.y-1)
+                {
+                    DOWN_WALL[j] = GameObject.CreatePrimitive(PrimitiveType.Plane);
+                    DOWN_WALL[j].transform.position = pixels[pixelCount].transform.position + new Vector3(0,-pixels[pixelCount].transform.position.y/2,-offset/2f);
+                    DOWN_WALL[j].transform.localScale = new Vector3(pixelWidth,1,pixels[pixelCount].transform.position.y/10f);
+                    DOWN_WALL[j].transform.Rotate(new Vector3(90,180,0),Space.World);
+                }
                 pixelCount++;
             }
+            //RIGHT WALL (ONLY FOR RIGHT SIDE)
+            RIGHT_WALL[i] = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            RIGHT_WALL[i].transform.position = pixels[pixelCount-1].transform.position + new Vector3(offset/2f,-pixels[pixelCount-1].transform.position.y/2,0);
+            RIGHT_WALL[i].transform.localScale = new Vector3(pixelWidth,1,pixels[pixelCount-1].transform.position.y/10f);
+            RIGHT_WALL[i].transform.Rotate(new Vector3(90,180,90),Space.World);
         }
     }
 
