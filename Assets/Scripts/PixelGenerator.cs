@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,99 +6,198 @@ using UnityEngine;
 public class PixelGenerator : MonoBehaviour
 {
     public Texture2D image;
-    Vector2 imageDimension;
+    Vector2 imgSize;
     Vector2 areaDimension;
-    float areaWidth = 1f;
+    public float areaWidth = 1f;
+    float pixelWidth;
+    public float heightFactor = 1;
+    float offset;
+
+    public bool wall = true;
+    public bool whiteWall = true;
+    public bool allWhite = false;
+    public bool invert = false;
+    int invertFactor;
+
+    private struct pixelStruct
+    {
+        public GameObject pixel;
+        public GameObject topWall;
+        public GameObject leftWall;
+        public GameObject bottomWall;
+        public GameObject rightWall;
+        public float pixelHeight;
+        public Material pixelMaterial;
+        public bool isTransparent;
+    }
+
+    Shader defaultShader;
+
+    //ARRAYS
+    pixelStruct[] pixelArray;
+    int pixelCount;
 
     // Start is called before the first frame update
     void Start()
     {
-        Vector2Int imgSize  = GetTextureDimensions.GetDimensions(Application.dataPath+"/Textures/"+image.name+".png");
-        imageDimension.x = imgSize.x;
-        imageDimension.y = imgSize.y;
-        Debug.Log(imageDimension);
+        defaultShader = Shader.Find("Custom/DoubleSidedShader");
+        invertFactor = invert ? -1 : 1;
+        Vector2Int imgSizeTemp = GetTextureDimensions.GetDimensions(Application.dataPath + "/Textures/" + image.name + ".png");
+        imgSize.x = imgSizeTemp.x;
+        imgSize.y = imgSizeTemp.y;
+        pixelArray = new pixelStruct[(int)(imgSize.x * imgSize.y)];
 
-        int maxImageDimension = Mathf.Max((int)imageDimension.x, (int)imageDimension.y);
-        Debug.Log(maxImageDimension);
+        int maxImgSize = Mathf.Max((int)imgSize.x, (int)imgSize.y);
+        float ratio = maxImgSize / areaWidth;
+        areaDimension = imgSize / ratio;
+        pixelWidth = areaWidth / maxImgSize;
+        offset = pixelWidth * 10f;
 
-        
-        float ratio = maxImageDimension/areaWidth;
-        areaDimension = imageDimension/ratio;
-        float pixelWidth = areaWidth/maxImageDimension;
-        float offset = pixelWidth*10f;
-        
-        GameObject[] pixels = new GameObject[(int)imageDimension.x * (int)imageDimension.y];
-        GameObject[] UP_WALL = new GameObject[(int)imageDimension.x * (int)imageDimension.y];
-        GameObject[] DOWN_WALL = new GameObject[(int)imageDimension.x];
-        GameObject[] LEFT_WALL = new GameObject[(int)imageDimension.x * (int)imageDimension.y];
-        GameObject[] RIGHT_WALL = new GameObject[(int)imageDimension.y];
-
-
-        int pixelCount = 0;
-        for(int i=0; i<imageDimension.y; i++)
+        pixelCount = 0;
+        for (int i = 0; i < imgSize.y; i++)
         {
-            for(int j=0; j<imageDimension.x; j++)
+            for (int j = 0; j < imgSize.x; j++)
             {
                 //PIXEL
-                pixels[pixelCount] = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                pixels[pixelCount].transform.parent = this.gameObject.transform;
+                createPixel(i, j);
 
-                Debug.Log("Creating pixel x="+(j+1).ToString()+" y="+(i+1).ToString());
-                
-                float height = image.GetPixel(j,(int)imageDimension.y-i-1).grayscale; //Start at bottom left
-
-                Debug.Log(((areaDimension.y*10/2f)-(i+0.5f)*offset).ToString());
-                int horizontalFactor = 1;
-                pixels[pixelCount].transform.position = new Vector3(-1f*(areaDimension.x*10/2f)+(j+0.5f)*offset,height,(areaDimension.y*10/2f)-(i+0.5f)*offset);
-                pixels[pixelCount].transform.localScale = new Vector3(pixelWidth,1,pixelWidth);
-
-                Material pixelMaterial = new Material(Shader.Find("Custom/DoubleSidedShader"));
-                pixelMaterial.color = image.GetPixel(j,(int)imageDimension.y-i-1);
-                pixels[pixelCount].GetComponent<Renderer>().material = pixelMaterial;
-
-                //UP WALL
-                UP_WALL[pixelCount] = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                float upwardPixelYPosition = (pixelCount-imageDimension.x<0) ? 0 : pixels[(int)(pixelCount-imageDimension.x)].transform.position.y;
-                float upWallHeight = Mathf.Abs(pixels[pixelCount].transform.position.y - upwardPixelYPosition);
-                bool isCurrentPixelOverUpwardPixel = (pixels[pixelCount].transform.position.y > upwardPixelYPosition) ? true : false;
-                float movingFactorUp = isCurrentPixelOverUpwardPixel? -1f : 1f;
-                UP_WALL[pixelCount].transform.position = pixels[pixelCount].transform.position + new Vector3(0f,movingFactorUp*upWallHeight/2f,offset/2f);
-                UP_WALL[pixelCount].transform.localScale = new Vector3(pixelWidth,1,upWallHeight/10f);
-                float YRotationUp = (!isCurrentPixelOverUpwardPixel)? 180f : 0f;
-                UP_WALL[pixelCount].transform.Rotate(new Vector3(90,YRotationUp,0),Space.World);
-
-                //LEFT WALL
-                LEFT_WALL[pixelCount] = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                float leftPixelYPosition = (pixelCount%imageDimension.x==0) ? 0 : pixels[(int)(pixelCount-1)].transform.position.y;
-                float leftWallHeight = Mathf.Abs(pixels[pixelCount].transform.position.y - leftPixelYPosition);
-                bool isCurrentPixelOverLeftPixel = (pixels[pixelCount].transform.position.y > leftPixelYPosition) ? true : false;
-                float movingFactorLeft = isCurrentPixelOverLeftPixel? -1f : 1f;
-                LEFT_WALL[pixelCount].transform.position = pixels[pixelCount].transform.position + new Vector3(-offset/2f,movingFactorLeft*leftWallHeight/2f,0);
-                LEFT_WALL[pixelCount].transform.localScale = new Vector3(pixelWidth,1,leftWallHeight/10f);
-                float YRotationLeft = (!isCurrentPixelOverLeftPixel)? 180f : 0f;
-                LEFT_WALL[pixelCount].transform.Rotate(new Vector3(90,YRotationLeft,90),Space.World);
-
-                if(i==imageDimension.y-1)
+                //WALLS
+                if (wall)
                 {
-                    DOWN_WALL[j] = GameObject.CreatePrimitive(PrimitiveType.Plane);
-                    DOWN_WALL[j].transform.position = pixels[pixelCount].transform.position + new Vector3(0,-pixels[pixelCount].transform.position.y/2,-offset/2f);
-                    DOWN_WALL[j].transform.localScale = new Vector3(pixelWidth,1,pixels[pixelCount].transform.position.y/10f);
-                    DOWN_WALL[j].transform.Rotate(new Vector3(90,180,0),Space.World);
+                    createTopWall();
+                    createLeftWall();
+                }
+
+                //BOTTOM WALL IF NECESSARY
+                if (i == imgSize.y - 1 && wall)
+                {
+                    createBottomWall();
                 }
                 pixelCount++;
             }
-            //RIGHT WALL (ONLY FOR RIGHT SIDE)
-            RIGHT_WALL[i] = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            RIGHT_WALL[i].transform.position = pixels[pixelCount-1].transform.position + new Vector3(offset/2f,-pixels[pixelCount-1].transform.position.y/2,0);
-            RIGHT_WALL[i].transform.localScale = new Vector3(pixelWidth,1,pixels[pixelCount-1].transform.position.y/10f);
-            RIGHT_WALL[i].transform.Rotate(new Vector3(90,180,90),Space.World);
+            //RIGHT WALL AT END OF LINE
+            if (wall) createRightWall();
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-    
+
+    void createPixel(int i, int j)
+    {
+        //Creation
+        pixelArray[pixelCount].pixel = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        pixelArray[pixelCount].pixel.name = "pixel_" + pixelCount;
+        pixelArray[pixelCount].isTransparent = image.GetPixel(j, (int)imgSize.y - i - 1).a == 0;
+
+
+        //Position&Scale
+        pixelArray[pixelCount].pixel.transform.parent = gameObject.transform;
+        pixelArray[pixelCount].pixelHeight = pixelArray[pixelCount].isTransparent ? 0 : image.GetPixel(j, (int)imgSize.y - i - 1).grayscale * heightFactor; //Start at bottom left
+        pixelArray[pixelCount].pixel.transform.position = new Vector3(-1f * (areaDimension.x * 10 / 2f) + (j + 0.5f) * offset, invertFactor * pixelArray[pixelCount].pixelHeight, (areaDimension.y * 10 / 2f) - (i + 0.5f) * offset);
+        pixelArray[pixelCount].pixel.transform.localScale = new Vector3(pixelWidth, 1, pixelWidth);
+
+        //Material
+        pixelArray[pixelCount].pixelMaterial = new Material(defaultShader);
+        pixelArray[pixelCount].pixelMaterial.color = image.GetPixel(j, (int)imgSize.y - i - 1);
+        if (!allWhite) pixelArray[pixelCount].pixel.GetComponent<Renderer>().material = pixelArray[pixelCount].pixelMaterial;
+
+        if (pixelArray[pixelCount].isTransparent) pixelArray[pixelCount].pixel.GetComponent<MeshRenderer>().enabled = false;
+    }
+    void createTopWall()
+    {
+        //Creation
+        pixelArray[pixelCount].topWall = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        pixelArray[pixelCount].topWall.name = "topWall_" + pixelCount;
+
+        //Calculation
+        float topPixelYPosition = (getTopPixelIndex(pixelCount) < 0) ? 0 : pixelArray[getTopPixelIndex(pixelCount)].pixelHeight;
+        float topWallHeight = Mathf.Abs(pixelArray[pixelCount].pixelHeight - topPixelYPosition);
+        bool isCurrentPixelOverTopPixel = (pixelArray[pixelCount].pixelHeight >= topPixelYPosition) ? true : false;
+        float YDirection = isCurrentPixelOverTopPixel ? -1f : 1f;
+
+        //Position&Scale
+        pixelArray[pixelCount].topWall.transform.position = pixelArray[pixelCount].pixel.transform.position + new Vector3(0f, invertFactor * (YDirection * topWallHeight / 2f), offset / 2f);
+        pixelArray[pixelCount].topWall.transform.localScale = new Vector3(pixelWidth, 1, topWallHeight / 10f);
+
+        //Rotation?
+        float YRotationUp = (!isCurrentPixelOverTopPixel) ? 180f : 0f;
+        pixelArray[pixelCount].topWall.transform.Rotate(new Vector3(90, YRotationUp, 0), Space.World);
+
+        //Color?
+        if (!whiteWall)
+        {
+            pixelArray[pixelCount].topWall.GetComponent<Renderer>().material = isCurrentPixelOverTopPixel ? pixelArray[pixelCount].pixelMaterial : pixelArray[getTopPixelIndex(pixelCount)].pixelMaterial;
+        }
+    }
+
+    void createLeftWall()
+    {
+        //Creation
+        pixelArray[pixelCount].leftWall = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        pixelArray[pixelCount].leftWall.name = "leftWall_" + pixelCount;
+
+        //Calculation
+        float leftPixelYPosition = (pixelCount % imgSize.x == 0) ? 0 : pixelArray[pixelCount - 1].pixelHeight;
+        float leftWallHeight = Mathf.Abs(pixelArray[pixelCount].pixelHeight - leftPixelYPosition);
+        bool isCurrentPixelOverLeftPixel = (pixelArray[pixelCount].pixelHeight >= leftPixelYPosition) ? true : false;
+        float YDirection = isCurrentPixelOverLeftPixel ? -1f : 1f;
+
+        //Position&Scale
+        pixelArray[pixelCount].leftWall.transform.position = pixelArray[pixelCount].pixel.transform.position + new Vector3(-offset / 2f, invertFactor * (YDirection * leftWallHeight / 2f), 0);
+        pixelArray[pixelCount].leftWall.transform.localScale = new Vector3(pixelWidth, 1, leftWallHeight / 10f);
+
+        //Rotation?
+        float YRotationLeft = (!isCurrentPixelOverLeftPixel) ? 180f : 0f;
+        pixelArray[pixelCount].leftWall.transform.Rotate(new Vector3(90, YRotationLeft, 90), Space.World);
+
+        //Color?
+        if (!whiteWall)
+        {
+            pixelArray[pixelCount].leftWall.GetComponent<Renderer>().material = isCurrentPixelOverLeftPixel ? pixelArray[pixelCount].pixelMaterial : pixelArray[pixelCount - 1].pixelMaterial;
+        }
+    }
+
+    void createBottomWall()
+    {
+        //Creation
+        pixelArray[pixelCount].bottomWall = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        pixelArray[pixelCount].bottomWall.name = "bottomWall_" + pixelCount;
+
+        //Position&Scale&Rotation
+        pixelArray[pixelCount].bottomWall.transform.position = pixelArray[pixelCount].pixel.transform.position + new Vector3(0, invertFactor * (-pixelArray[pixelCount].pixelHeight / 2), -offset / 2f);
+        pixelArray[pixelCount].bottomWall.transform.localScale = new Vector3(pixelWidth, 1, pixelArray[pixelCount].pixelHeight / 10f);
+        pixelArray[pixelCount].bottomWall.transform.Rotate(new Vector3(90, 180, 0), Space.World);
+
+        //Color?
+        if (!whiteWall)
+        {
+            pixelArray[pixelCount].bottomWall.GetComponent<Renderer>().material = pixelArray[pixelCount].pixelMaterial;
+        }
+    }
+
+    void createRightWall()
+    {
+        //Creation
+        pixelArray[pixelCount - 1].rightWall = GameObject.CreatePrimitive(PrimitiveType.Plane);
+        pixelArray[pixelCount - 1].rightWall.name = "rightWall_" + pixelCount;
+
+        //Position&Scale&Rotation
+        pixelArray[pixelCount - 1].rightWall.transform.position = pixelArray[pixelCount - 1].pixel.transform.position + new Vector3(offset / 2f, invertFactor * (-pixelArray[pixelCount - 1].pixelHeight / 2), 0);
+        pixelArray[pixelCount - 1].rightWall.transform.localScale = new Vector3(pixelWidth, 1, pixelArray[pixelCount - 1].pixelHeight / 10f);
+        pixelArray[pixelCount - 1].rightWall.transform.Rotate(new Vector3(90, 180, 90), Space.World);
+
+        //Color?
+        if (!whiteWall)
+        {
+            pixelArray[pixelCount - 1].rightWall.GetComponent<Renderer>().material = pixelArray[pixelCount - 1].pixelMaterial;
+        }
+    }
+    int getTopPixelIndex(int currentIndex)
+    {
+        return currentIndex - (int)imgSize.x;
+    }
 }
