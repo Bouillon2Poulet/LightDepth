@@ -1,8 +1,12 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class ToolButton : MonoBehaviour, IPointerClickHandler
+public class CurrentColorButton : MonoBehaviour, IPointerClickHandler
 {
+    public GameObject colorWheel;
+
     //Detect if a click occurs
     public void OnPointerClick(PointerEventData pointerEventData)
     {
@@ -16,9 +20,17 @@ public class ToolButton : MonoBehaviour, IPointerClickHandler
         //Use this to tell when the user left-clicks on the Button
         if (pointerEventData.button == PointerEventData.InputButton.Left)
         {
-            string textToRemove = "_btn";
-            string nameWithout_btn = this.name.Replace(textToRemove, "");
-            GetComponentInParent<DrawingToolManager>().setCurrentToolTypeFromString(nameWithout_btn);
+            Debug.Log("colorClicked");
+            colorWheel.GetComponent<UnityEngine.UI.Image>().enabled = !colorWheel.GetComponent<UnityEngine.UI.Image>().enabled;
         }
+    }
+
+    void Start()
+    {
+        GetComponent<UnityEngine.UI.Image>().color = GetComponentInParent<ColorManager>().currentColor;
+    }
+    void Update()
+    {
+        GetComponent<UnityEngine.UI.Image>().color = GetComponentInParent<ColorManager>().currentColor;
     }
 }

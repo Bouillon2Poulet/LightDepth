@@ -1,6 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
+using System.Linq;
 using UnityEngine;
 
 public class DrawingToolManager : MonoBehaviour
@@ -81,46 +80,54 @@ public class DrawingToolManager : MonoBehaviour
         }
     }
 
-    public void action(Texture2D drawingTexture, Vector2Int pixelCoordinates)
+    public void action(Texture2D drawingTexture, List<Vector2> PointsList, Color currentColor, Action currentAction)
     {
         switch (currentToolType)
         {
-            // case toolType.pen:
-            //     draw(drawingTexture, pixelCoordinates);
-            //     break;
+            case toolType.pen:
+                draw(drawingTexture, PointsList, currentColor, currentAction);
+                break;
             case toolType.eraser:
-                erase(drawingTexture, pixelCoordinates);
+                erase(drawingTexture, PointsList, currentAction);
                 break;
             case toolType.bucket:
-                fill(drawingTexture, pixelCoordinates);
+                fill(drawingTexture, PointsList.Last(), currentColor);
                 break;
             case toolType.color_picker:
-                pickColor(drawingTexture, pixelCoordinates);
+                pickColor(drawingTexture, PointsList.Last(), currentColor);
                 break;
             case toolType.size: return;
         }
     }
-    public void draw(Texture2D drawingTexture, List<Vector2> pixelsCoordinates)
+    public void draw(Texture2D drawingTexture, List<Vector2> pixelsCoordinates, Color color, Action currentAction)
     {
+        // currentAction.eraseLastPixelDataIfSameAsNew(pixelsCoordinates[0]);
+        currentAction.addActionData(ActionHistoryManager.ActionType.paint, pixelsCoordinates, drawingTexture, color);
         foreach (Vector2 pixelCoordinates in pixelsCoordinates)
         {
-            drawingTexture.SetPixel((int)pixelCoordinates.x, (int)pixelCoordinates.y, Color.black);
-
+            drawingTexture.SetPixel((int)pixelCoordinates.x, (int)pixelCoordinates.y, color);
         }
     }
 
-    void erase(Texture2D drawingTexture, Vector2Int pixelCoordinates)
+    void erase(Texture2D drawingTexture, List<Vector2> pixelsCoordinates, Action currentAction)
     {
-        drawingTexture.SetPixel(pixelCoordinates.x, pixelCoordinates.y, new Color(1, 1, 1, 0));
+        // currentAction.eraseLastPixelDataIfSameAsNew(pixelsCoordinates[0]);
+        Color eraseColor = new Color(1, 1, 1, 0);
+        currentAction.addActionData(ActionHistoryManager.ActionType.erase, pixelsCoordinates, drawingTexture, eraseColor);
+        foreach (Vector2 pixelCoordinates in pixelsCoordinates)
+        {
+            drawingTexture.SetPixel((int)pixelCoordinates.x, (int)pixelCoordinates.y, eraseColor);
+        }
     }
 
-    void fill(Texture2D drawingTexture, Vector2Int pixelCoordinates)
+    void fill(Texture2D drawingTexture, Vector2 pixelCoordinates, Color color)
     {
 
     }
 
-    void pickColor(Texture2D drawingTexture, Vector2Int pixelCoordinates)
+    void pickColor(Texture2D drawingTexture, Vector2 pixelCoordinates, Color currentColor)
     {
-
+        currentColor = drawingTexture.GetPixel((int)pixelCoordinates.x, (int)pixelCoordinates.y);
+        currentColor.a = 1;
     }
 }

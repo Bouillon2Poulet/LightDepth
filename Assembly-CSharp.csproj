@@ -68,8 +68,14 @@
     <Compile Include="Assets\Scripts\Drawing\DrawingManager.cs" />
     <Compile Include="Assets\Scripts\CameraRotation.cs" />
     <Compile Include="Assets\Scripts\GetTextureDimensions.cs" />
+    <Compile Include="Assets\Scripts\Drawing\ActionClass.cs" />
+    <Compile Include="Assets\Scripts\Drawing\ColorManager.cs" />
     <Compile Include="Assets\Scripts\CameraRotation1.cs" />
     <Compile Include="Assets\Scripts\PixelGenerator.cs" />
+    <Compile Include="Assets\Scripts\Drawing\ActionHistoryManager.cs" />
+    <Compile Include="Assets\Scripts\Drawing\ColorWheel.cs" />
+    <Compile Include="Assets\Scripts\Drawing\ActionButton.cs" />
+    <Compile Include="Assets\Scripts\Drawing\CurrentColorButton.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingToolManager.cs" />
     <Compile Include="Assets\Scripts\Drawing\ToolButtonManager.cs" />
   </ItemGroup>
