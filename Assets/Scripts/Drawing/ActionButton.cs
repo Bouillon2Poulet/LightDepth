@@ -1,4 +1,3 @@
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,20 +14,12 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            GetComponent<UnityEngine.UI.Image>().color = Color.white    ;
+            GetComponent<UnityEngine.UI.Image>().color = Color.white;
         }
     }
     //Detect if a click occurs
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        // //Use this to tell when the user right-clicks on the Button
-        // if (pointerEventData.button == PointerEventData.InputButton.Right)
-        // {
-        //     //Output to console the clicked GameObject's name and the following message. You can replace this with your own actions for when clicking the GameObject.
-        //     Debug.Log(name + " Game Object Right Clicked!");
-        // }
-
-        //Use this to tell when the user left-clicks on the Button
         if (pointerEventData.button == PointerEventData.InputButton.Left && canBeClicked)
         {
             if (isNext)

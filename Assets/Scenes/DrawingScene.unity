@@ -301,55 +301,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 308597848}
   m_CullTransparentMesh: 1
---- !u!1 &364209498
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 364209500}
-  - component: {fileID: 364209499}
-  m_Layer: 0
-  m_Name: DrawingManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &364209499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 364209498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81a1a92e759d57b4b9d786cd93b09aca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drawingMaterial: {fileID: 2100000, guid: 890a15f7fc5ad7049bb499b9b86ad36d, type: 2}
-  drawingTexture: {fileID: 0}
-  drawingToolManager: {fileID: 1663235404}
-  colorManager: {fileID: 817408209}
-  actionHistoryManager: {fileID: 1496530636}
---- !u!4 &364209500
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 364209498}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.9940081, y: 1.9986588, z: -1.0497075}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &376199858
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,7 +705,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08fe883e4bd6b9c49912be5998a8da37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &997696144
 GameObject:
   m_ObjectHideFlags: 0
@@ -949,8 +899,9 @@ GameObject:
   - component: {fileID: 1192159271}
   - component: {fileID: 1192159270}
   - component: {fileID: 1192159269}
+  - component: {fileID: 1192159273}
   m_Layer: 5
-  m_Name: CanvasUI
+  m_Name: DrawingManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1035,13 +986,29 @@ RectTransform:
   - {fileID: 1663235405}
   - {fileID: 817408210}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1192159273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1192159268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a1a92e759d57b4b9d786cd93b09aca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawingMaterial: {fileID: 2100000, guid: 890a15f7fc5ad7049bb499b9b86ad36d, type: 2}
+  drawingToolManager: {fileID: 1663235404}
+  colorManager: {fileID: 817408209}
+  actionHistoryManager: {fileID: 1496530636}
 --- !u!1 &1468068778
 GameObject:
   m_ObjectHideFlags: 0
@@ -1207,7 +1174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c43643a482ed9646aa6f7c0021a15a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DrawingManager: {fileID: 364209498}
+  DrawingManager: {fileID: 1192159268}
   actionPrefab: {fileID: 6526631350955408137, guid: 8eed0fc210abdc74aa287013883086e5, type: 3}
   actionsList: {fileID: 1777435294}
   currentActionIndexFromTopOfStack: 0
@@ -1277,7 +1244,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1663235404
 GameObject:
@@ -1327,7 +1294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b2816a3f9f704249a6fe071e3c6c195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toolButtonPrefab: {fileID: 0}
+  colorManager: {fileID: 817408209}
 --- !u!1 &1777435294
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,53 +7,62 @@ using UnityEngine.UI;
 
 public class Action : MonoBehaviour
 {
-    public ActionHistoryManager.ActionType type;
-    public List<Vector2> PixelsList;
-    public List<Color> PreviousColor;
-    public List<Color> NewColor;
-
-    // public Action()
-    // {
-    //     PixelsList = new List<Vector2>();
-    //     PreviousColor = new List<Color>();
-    //     NewColor = new List<Color>();
-    // }
-    public void addActionData(ActionHistoryManager.ActionType actionType, List<Vector2> pixelsLists, Texture2D texture, Color newColor)
+    public DrawingToolManager.ToolType type;
+    public struct ActionData
     {
-        type = actionType;
-        name = actionType.ToString();
-        GetComponent<Text>().text = name;
+        public Vector2 position;
+        public Color previousColor;
+        public Color newColor;
+    }
+    public List<ActionData> actionDatas;
+
+    public void Start()
+    {
+        actionDatas = new List<ActionData>();
+    }
+    public void addActionData(List<Vector2> pixelsLists, Texture2D texture, Color newColor)
+    {
+        Debug.Log(pixelsLists[1]);
         foreach (Vector2 pixel in pixelsLists)
         {
-            if (PixelsList.Count() == 0 || !PixelsList.Contains(pixel))
+            Debug.Log(actionDatas.Count);
+            if (actionDatas.Count() == 0 || !pixelPositionExistActionDatas(pixel))
             {
-                PixelsList.Add(pixel);
-                PreviousColor.Add(texture.GetPixel((int)PixelsList.Last().x, (int)PixelsList.Last().y));
-                NewColor.Add(newColor);
+                Debug.Log("OOO");
+                ActionData newData;
+                newData.position = pixel;
+                newData.previousColor = texture.GetPixel((int)pixel.x, (int)pixel.y);
+                newData.newColor = newColor;
+                actionDatas.Add(newData);
             }
         }
+        Debug.Log("!!!");
     }
 
     public void printActionDatas()
     {
         int i = 0;
-        foreach (Vector2 pixel in PixelsList)
+        foreach (ActionData actionData in actionDatas)
         {
-            // Debug.Log(i);
-            Debug.Log("\nPixel:" + pixel.x + "/" + pixel.y);
-            Debug.Log("\nPreviousColor: " + PreviousColor[i].ToString() + "// NewColor: " + NewColor[i].ToString());
+            Debug.Log(i);
+            Debug.Log("\nPixel n°:" + i + " : " + actionData.position.x + "/" + actionData.position.y);
+            Debug.Log("\nPreviousColor: " + actionData.previousColor[i].ToString() + "// NewColor: " + actionData.newColor[i].ToString());
             i++;
         }
     }
 
-    public void eraseLastPixelDataIfSameAsNew(Vector2 firstPixelOfList)
+    public bool pixelPositionExistActionDatas(Vector2 position)
     {
-        if (PixelsList.Count > 0)
-            if (PixelsList.Count > 0 && PixelsList.Last() == firstPixelOfList)
+        bool exist = false;
+        Debug.Log("AAA");
+        if (actionDatas.Count == 0) return true;
+        foreach (ActionData actionData in actionDatas)
+        {
+            if (actionData.position == position)
             {
-                PixelsList.RemoveAt(PixelsList.Count());
-                PreviousColor.RemoveAt(PixelsList.Count());
-                NewColor.RemoveAt(PixelsList.Count());
+                exist = true;
             }
+        }
+        return exist;
     }
 }

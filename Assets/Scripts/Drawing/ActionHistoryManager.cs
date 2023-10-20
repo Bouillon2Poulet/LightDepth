@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -45,7 +43,7 @@ public class ActionHistoryManager : MonoBehaviour
         }
     }
 
-    public void newAction()
+    public void newAction(DrawingToolManager.ToolType toolType)
     {
         if (currentActionIndexFromTopOfStack > 0)
         {
@@ -56,31 +54,33 @@ public class ActionHistoryManager : MonoBehaviour
             }
         }
         actionHistory.Push(Instantiate(actionPrefab));
-        actionHistory.First().transform.parent = actionsList.transform;
-        // actionHistory.First().GetComponent<RectTransform>().anchoredPosition = new Vector2(-43, -47);
+        actionHistory.First().transform.SetParent(actionsList.transform);
+        actionHistory.First().GetComponent<Action>().type = toolType;
+        actionHistory.First().name = toolType.ToString();
+        actionHistory.First().GetComponent<Text>().text = toolType.ToString();
     }
 
     public void UNDOAction()
     {
         int index = 0;
-        foreach (Vector2 pixel in actionHistory.ElementAt(currentActionIndexFromTopOfStack).GetComponent<Action>().PixelsList)
+        foreach (Action.ActionData action in actionHistory.ElementAt(currentActionIndexFromTopOfStack).GetComponent<Action>().actionDatas)
         {
-            DrawingManager.GetComponent<DrawingManager>().drawingTexture.SetPixel((int)pixel.x, (int)pixel.y, actionHistory.ElementAt(currentActionIndexFromTopOfStack).GetComponent<Action>().PreviousColor.ElementAt(index));
+            DrawingManager.GetComponent<DrawingManager>().setDrawingTexturePixel(action.position, action.previousColor);
             index++;
         }
-        DrawingManager.GetComponent<DrawingManager>().drawingTexture.Apply();
+        DrawingManager.GetComponent<DrawingManager>().applyDrawingTexture();
         currentActionIndexFromTopOfStack++;
     }
     public void REDOAction()
     {
         int index = 0;
         currentActionIndexFromTopOfStack--;
-        foreach (Vector2 pixel in actionHistory.ElementAt(currentActionIndexFromTopOfStack).GetComponent<Action>().PixelsList)
+        foreach (Action.ActionData action in actionHistory.ElementAt(currentActionIndexFromTopOfStack).GetComponent<Action>().actionDatas)
         {
-            DrawingManager.GetComponent<DrawingManager>().drawingTexture.SetPixel((int)pixel.x, (int)pixel.y, actionHistory.ElementAt(currentActionIndexFromTopOfStack).GetComponent<Action>().NewColor.ElementAt(index));
+            DrawingManager.GetComponent<DrawingManager>().setDrawingTexturePixel(action.position, action.newColor);
             index++;
         }
-        DrawingManager.GetComponent<DrawingManager>().drawingTexture.Apply();
+        DrawingManager.GetComponent<DrawingManager>().applyDrawingTexture();
     }
 
 }
