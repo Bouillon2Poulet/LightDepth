@@ -7,7 +7,7 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler
     bool canBeClicked;
     public void Update()
     {
-        canBeClicked = isNext && GetComponentInParent<ActionHistoryManager>().currentActionIndexFromTopOfStack > 0 ? true : !isNext && GetComponentInParent<ActionHistoryManager>().currentActionIndexFromTopOfStack < GetComponentInParent<ActionHistoryManager>().actionHistory.Count ? true : false;
+        canBeClicked = isNext && GetComponentInParent<ActionHistoryManager>().currentActionIndexFromTopOfStack > 0 ? true : !isNext && GetComponentInParent<ActionHistoryManager>().currentActionIndexFromTopOfStack < GetComponentInParent<ActionHistoryManager>().actionsHistory.Count ? true : false;
         if (!canBeClicked)
         {
             GetComponent<UnityEngine.UI.Image>().color = new Color(0.7f, 0.7f, 0.7f, 1);

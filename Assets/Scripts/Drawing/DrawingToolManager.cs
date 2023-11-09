@@ -64,7 +64,10 @@ public class DrawingToolManager : MonoBehaviour
     }
     public void draw(Texture2D drawingTexture, List<Vector2> pixelsCoordinates, Action currentAction)
     {
+        Debug.Log("!");
         currentAction.addActionData(pixelsCoordinates, drawingTexture, colorManager.GetComponent<ColorManager>().getCurrentColor());
+        Debug.Log("?");
+
         foreach (Vector2 pixelCoordinates in pixelsCoordinates)
         {
             drawingTexture.SetPixel((int)pixelCoordinates.x, (int)pixelCoordinates.y, colorManager.GetComponent<ColorManager>().getCurrentColor());

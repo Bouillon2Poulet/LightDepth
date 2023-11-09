@@ -16,7 +16,7 @@ public class RotationAroundWorldCenter : MonoBehaviour
         float z = Mathf.Sin(angle) * radius;
 
         // Mettre à jour la position de l'objet sur le plan (x, z)
-        transform.position = new Vector3(x, transform.position.y, z);
-        transform.rotation = Quaternion.LookRotation(target.transform.position - transform.position, new Vector3(0,0,1));
+        transform.position = target.transform.position + new Vector3(x, transform.position.y, z);
+        transform.rotation = Quaternion.LookRotation(target.transform.position - transform.position, new Vector3(0, 1, 0));
     }
 }

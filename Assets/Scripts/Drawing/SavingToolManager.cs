@@ -3,21 +3,25 @@ using UnityEngine.Experimental.Rendering;
 
 public class SavingToolManager : MonoBehaviour
 {
+    public string filePath;
+    public Texture2D finalColorTexture;
+    public Texture2D finalHeightTexture;
     public void save()
     {
         Debug.Log("Saving");
-        Texture2D drawingTexture = GetComponentInParent<DrawingManager>().getDrawingTexture();
-        float minimumX = drawingTexture.width;
+        Texture2D colorTexture = GetComponentInParent<DrawingManager>().getColorTexture();
+        Texture2D heightTexture = GetComponentInParent<DrawingManager>().getHeightTexture();
+        float minimumX = colorTexture.width;
         float maximumX = 0;
-        float minimumY = drawingTexture.height;
+        float minimumY = colorTexture.height;
         float maximumY = 0;
 
         //TODO : find a more optimized way + separate in a function
-        for (int y = 0; y < drawingTexture.height; y++)
+        for (int y = 0; y < colorTexture.height; y++)
         {
-            for (int x = 0; x < drawingTexture.width; x++)
+            for (int x = 0; x < colorTexture.width; x++)
             {
-                if (drawingTexture.GetPixel(x, y).a > 0)
+                if (colorTexture.GetPixel(x, y).a > 0)
                 {
                     if (x < minimumX)
                     {
@@ -42,28 +46,40 @@ public class SavingToolManager : MonoBehaviour
         Vector2 calculatedTextureSize = new Vector2(maximumX - minimumX + 1, maximumY - minimumY + 1);
         Debug.Log("calculatedTextureSize" + calculatedTextureSize);
 
-        Texture2D finalTexture = new Texture2D((int)calculatedTextureSize.x, (int)calculatedTextureSize.y, GraphicsFormat.R8G8B8A8_UNorm, TextureCreationFlags.None)
+        finalColorTexture = new Texture2D((int)calculatedTextureSize.x, (int)calculatedTextureSize.y, GraphicsFormat.R8G8B8A8_UNorm, TextureCreationFlags.None)
         {
-            name = "finalTexture",
+            name = "finalColorTexture",
             filterMode = FilterMode.Point,
             alphaIsTransparency = true
         };
 
-        Debug.Log("finalTexture" + finalTexture.width + "," + finalTexture.height);
+        finalHeightTexture = new Texture2D((int)calculatedTextureSize.x, (int)calculatedTextureSize.y, GraphicsFormat.R8G8B8A8_UNorm, TextureCreationFlags.None)
+        {
+            name = "finalHeightTexture",
+            filterMode = FilterMode.Point,
+            alphaIsTransparency = true
+        };
+
+
+        Debug.Log("finalColorTexture" + finalColorTexture.width + "," + finalColorTexture.height);
 
         //TODO : separate in a function
-        for (int y = 0; y < finalTexture.height; y++)
+        for (int y = 0; y < finalColorTexture.height; y++)
         {
-            for (int x = 0; x < finalTexture.width; x++)
+            for (int x = 0; x < finalColorTexture.width; x++)
             {
-                finalTexture.SetPixel(x, y, drawingTexture.GetPixel((int)(minimumX + x), (int)(minimumY + y))); ;
+                finalColorTexture.SetPixel(x, y, colorTexture.GetPixel((int)(minimumX + x), (int)(minimumY + y)));
+                finalHeightTexture.SetPixel(x, y, heightTexture.GetPixel((int)(minimumX + x), (int)(minimumY + y)));
             }
         }
-        finalTexture.Apply();
+        finalColorTexture.Apply();
+        finalHeightTexture.Apply();
 
         //Saving
-        var filePath = System.IO.Path.Combine(Application.dataPath + "/drawingTexture/", finalTexture.name + ".png");
-        System.IO.File.WriteAllBytes(filePath, finalTexture.EncodeToPNG());
+        filePath = System.IO.Path.Combine(Application.dataPath + "/saveTextures/", finalColorTexture.name + ".png");
+        System.IO.File.WriteAllBytes(filePath, finalColorTexture.EncodeToPNG());
+        filePath = System.IO.Path.Combine(Application.dataPath + "/saveTextures/", finalHeightTexture.name + ".png");
+        System.IO.File.WriteAllBytes(filePath, finalHeightTexture.EncodeToPNG());
     }
 
 }

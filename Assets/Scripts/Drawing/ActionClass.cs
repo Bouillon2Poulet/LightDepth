@@ -22,13 +22,17 @@ public class Action : MonoBehaviour
     }
     public void addActionData(List<Vector2> pixelsLists, Texture2D texture, Color newColor)
     {
+        Debug.Log(pixelsLists);
         foreach (Vector2 pixel in pixelsLists)
         {
+            Debug.Log("§§");
             if (actionDatas.Count() == 0 || !pixelPositionExistActionDatas(pixel))
             {
+                Debug.Log("§&§");
                 ActionData newData;
                 newData.position = pixel;
                 newData.previousColor = texture.GetPixel((int)pixel.x, (int)pixel.y);
+                Debug.Log("§!§");
                 newData.newColor = newColor;
                 actionDatas.Add(newData);
             }
