@@ -4,24 +4,32 @@ using UnityEngine;
 
 public class DrawingToolManager : MonoBehaviour
 {
+    public GameObject DrawingMeshCamera;
     public enum ToolType
     {
         pen,
         eraser,
         bucket,
         color_picker,
+        zoom,
         size
     }
 
+    public bool pointerIsOnUI;
     public GameObject colorManager;
+    public GameObject ToolCursor;
 
-    private ToolType selectedTool;
 
+    public ToolType selectedTool;
 
-    public void setCurrentToolTypeFromString(string toolName)
+    public void Start()
+    {
+        selectedTool = ToolType.pen;
+    }
+    public void setCurrentToolTypeFromString(string toolName, Sprite sprite)
     {
         selectedTool = System.Enum.Parse<ToolType>(toolName);
-        Debug.Log(selectedTool);
+        ToolCursor.GetComponent<ToolCursor>().setToolCursorTexture(sprite);
     }
 
     public void performSelectedToolAction(Texture2D drawingTexture, List<Vector2> pixelsCoordinates, Action currentAction)
@@ -35,10 +43,21 @@ public class DrawingToolManager : MonoBehaviour
                 erase(drawingTexture, pixelsCoordinates, currentAction);
                 break;
             case ToolType.bucket:
-                // fill(drawingTexture, pixelsCoordinates.Last(), currentColor);
+                currentAction.printActionDatas();
+                //Faire qu'une fois et pas à chaque frame
+                if (currentAction.actionDatas.Count == 0)
+                {
+                    Debug.Log("Appel depuis le switch");
+                    Color colorToFill = drawingTexture.GetPixel((int)pixelsCoordinates.Last().x, (int)pixelsCoordinates.Last().y);
+                    fill(colorToFill, pixelsCoordinates.Last(), drawingTexture, currentAction, 0);
+                    Debug.Log("Fin switch");
+                }
                 break;
             case ToolType.color_picker:
                 pickColor(drawingTexture, pixelsCoordinates.Last());
+                break;
+            case ToolType.zoom:
+                DrawingMeshCamera.GetComponent<CameraMovement>().zoom();
                 break;
             case ToolType.size: return;
         }
@@ -62,9 +81,55 @@ public class DrawingToolManager : MonoBehaviour
         }
     }
 
-    void fill(Texture2D drawingTexture, Vector2 pixelCoordinates)
-    {
 
+    enum caseType
+    {
+        zero,
+        left,
+        right,
+        top,
+        bot
+    }
+    void fill(Color colorToFill, Vector2 positionToFill, Texture2D drawingTexture, Action currentAction, caseType caseWhoCalledFunction)
+    {
+        if (positionToFill.x < 0 || positionToFill.x >= drawingTexture.width ||
+            positionToFill.y < 0 || positionToFill.y >= drawingTexture.height)
+        {
+            // Arrêt si nous sommes en dehors des limites de la texture.
+            return;
+        }
+
+        if (drawingTexture.GetPixel((int)positionToFill.x, (int)positionToFill.y) != colorToFill)
+        {
+            // Arrêt si la couleur du pixel ne correspond pas à la couleur à remplir.
+            return;
+        }
+
+        // if (currentAction.actionDatas.Count != 0)
+        // {
+        //     if (currentAction.pixelPositionExistActionDatas(positionToFill))
+        //     {
+        //         // Arrêt si le pixel a déjà été colorié
+        //         Debug.Log("Retour !!!!!!!!" + currentAction.actionDatas.Count);
+        //         return;
+        //     }
+        // }
+
+        //TODO faire une fonction qui rajoute un pixel à l'action sans passer par une liste
+        List<Vector2> listTemp = new List<Vector2>
+        {
+            positionToFill
+        };
+        currentAction.addActionData(listTemp, drawingTexture, colorManager.GetComponent<ColorManager>().getCurrentColor());
+        drawingTexture.SetPixel((int)positionToFill.x, (int)positionToFill.y, colorManager.GetComponent<ColorManager>().getCurrentColor());
+
+        Debug.Log("Taille actionDatas avant voisin" + currentAction.actionDatas.Count);
+
+        // Appels récursifs pour les voisins
+        if (caseWhoCalledFunction != caseType.right) fill(colorToFill, new Vector2(positionToFill.x - 1, positionToFill.y), drawingTexture, currentAction, caseType.left); // Gauche
+        if (caseWhoCalledFunction != caseType.left) fill(colorToFill, new Vector2(positionToFill.x + 1, positionToFill.y), drawingTexture, currentAction, caseType.right); // Droite
+        if (caseWhoCalledFunction != caseType.top) fill(colorToFill, new Vector2(positionToFill.x, positionToFill.y + 1), drawingTexture, currentAction, caseType.bot); // Haut
+        if (caseWhoCalledFunction != caseType.top) fill(colorToFill, new Vector2(positionToFill.x, positionToFill.y - 1), drawingTexture, currentAction, caseType.top); // Bas
     }
 
     void pickColor(Texture2D drawingTexture, Vector2 pixelCoordinates)
@@ -76,11 +141,11 @@ public class DrawingToolManager : MonoBehaviour
 
     public bool selectedToolCreatesAction()
     {
-        if (selectedTool == DrawingToolManager.ToolType.pen || selectedTool == ToolType.eraser)
+        if (selectedTool == ToolType.color_picker || selectedTool == ToolType.zoom)
         {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public ToolType getSelectedToolType()

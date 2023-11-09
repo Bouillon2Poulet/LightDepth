@@ -65,19 +65,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Drawing\ToolButton.cs" />
+    <Compile Include="Assets\Scripts\Drawing\Cursor.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingManager.cs" />
+    <Compile Include="Assets\Scripts\Drawing\SaveButton.cs" />
     <Compile Include="Assets\Scripts\CameraRotation.cs" />
     <Compile Include="Assets\Scripts\GetTextureDimensions.cs" />
+    <Compile Include="Assets\Scripts\Drawing\IsHovered.cs" />
     <Compile Include="Assets\Scripts\Drawing\ActionClass.cs" />
+    <Compile Include="Assets\Scripts\Drawing\BackgroundTextureGenerator.cs" />
     <Compile Include="Assets\Scripts\Drawing\ColorManager.cs" />
     <Compile Include="Assets\Scripts\CameraRotation1.cs" />
     <Compile Include="Assets\Scripts\PixelGenerator.cs" />
+    <Compile Include="Assets\Scripts\Drawing\CameraMovement.cs" />
     <Compile Include="Assets\Scripts\Drawing\ActionHistoryManager.cs" />
     <Compile Include="Assets\Scripts\Drawing\ColorWheel.cs" />
     <Compile Include="Assets\Scripts\Drawing\ActionButton.cs" />
+    <Compile Include="Assets\Scripts\Drawing\ToolCursor.cs" />
+    <Compile Include="Assets\Scripts\Drawing\SavingToolManager.cs" />
+    <Compile Include="Assets\Scripts\Drawing\DrawingName.cs" />
     <Compile Include="Assets\Scripts\Drawing\CurrentColorButton.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingToolManager.cs" />
-    <Compile Include="Assets\Scripts\Drawing\ToolButtonManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\DoubleSidedShader.shader" />

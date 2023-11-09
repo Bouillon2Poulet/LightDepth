@@ -22,13 +22,10 @@ public class Action : MonoBehaviour
     }
     public void addActionData(List<Vector2> pixelsLists, Texture2D texture, Color newColor)
     {
-        Debug.Log(pixelsLists[1]);
         foreach (Vector2 pixel in pixelsLists)
         {
-            Debug.Log(actionDatas.Count);
             if (actionDatas.Count() == 0 || !pixelPositionExistActionDatas(pixel))
             {
-                Debug.Log("OOO");
                 ActionData newData;
                 newData.position = pixel;
                 newData.previousColor = texture.GetPixel((int)pixel.x, (int)pixel.y);
@@ -36,7 +33,6 @@ public class Action : MonoBehaviour
                 actionDatas.Add(newData);
             }
         }
-        Debug.Log("!!!");
     }
 
     public void printActionDatas()
@@ -54,7 +50,6 @@ public class Action : MonoBehaviour
     public bool pixelPositionExistActionDatas(Vector2 position)
     {
         bool exist = false;
-        Debug.Log("AAA");
         if (actionDatas.Count == 0) return true;
         foreach (ActionData actionData in actionDatas)
         {
