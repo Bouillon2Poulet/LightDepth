@@ -64,10 +64,12 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.0f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Drawing\ToolButton.cs" />
     <Compile Include="Assets\Scripts\Generation3D.cs" />
+    <Compile Include="Assets\Scripts\Drawing\ToolButton.cs" />
     <Compile Include="Assets\Scripts\Drawing\Cursor.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingManager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Managers\preview3D_manager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Buttons\mode_button.cs" />
     <Compile Include="Assets\Scripts\Drawing\SaveButton.cs" />
     <Compile Include="Assets\Scripts\BUTTONS\DrawingModeBtn.cs" />
     <Compile Include="Assets\Scripts\CameraRotation.cs" />
@@ -76,15 +78,22 @@
     <Compile Include="Assets\Scripts\Drawing\ActionClass.cs" />
     <Compile Include="Assets\Scripts\Drawing\BackgroundTextureGenerator.cs" />
     <Compile Include="Assets\Scripts\Drawing\ColorManager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Managers\colors_manager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Buttons\preview3D_button.cs" />
     <Compile Include="Assets\Scripts\CameraRotation1.cs" />
     <Compile Include="Assets\Scripts\PixelGenerator.cs" />
     <Compile Include="Assets\Scripts\Drawing\CameraMovement.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Buttons\tool_button.cs" />
     <Compile Include="Assets\Scripts\Drawing\ActionHistoryManager.cs" />
     <Compile Include="Assets\Scripts\Drawing\ColorWheel.cs" />
     <Compile Include="Assets\Scripts\Drawing\ActionButton.cs" />
     <Compile Include="Assets\Scripts\Drawing\ToolCursor.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Managers\mode_manager.cs" />
     <Compile Include="Assets\Scripts\BUTTONS\Preview3D_Btn.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Buttons\color_palette_button.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Managers\tools_manager.cs" />
     <Compile Include="Assets\Scripts\Drawing\SavingToolManager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Buttons\color_palette_spectrum.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingName.cs" />
     <Compile Include="Assets\Scripts\Drawing\CurrentColorButton.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingToolManager.cs" />
