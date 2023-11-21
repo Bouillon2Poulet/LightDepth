@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class tools_manager : MonoBehaviour
+public class ToolsManager : MonoBehaviour
 {
     public enum Tool
     {

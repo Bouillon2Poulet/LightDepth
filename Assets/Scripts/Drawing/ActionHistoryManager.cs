@@ -32,7 +32,7 @@ public class ActionHistoryManager : MonoBehaviour
 
     public void newAction(DrawingToolManager.ToolType toolType)
     {
-        if (GetComponentInParent<DrawingManager>().mode == DrawingManager.DrawingMode.color)
+        if (GetComponentInParent<DrawingManagerOld>().mode == DrawingManagerOld.DrawingMode.color)
 
             if (currentActionIndexFromTopOfStack > 0)
             {
@@ -44,7 +44,7 @@ public class ActionHistoryManager : MonoBehaviour
             }
         actionsHistory.Push(Instantiate(actionPrefab));
         actionsHistory.First().transform.SetParent(actionsList.transform);
-        actionsHistory.First().GetComponent<Action>().type = toolType;
+        // actionsHistory.First().GetComponent<Action>().type = toolType;
         actionsHistory.First().name = toolType.ToString();
         actionsHistory.First().GetComponent<Text>().text = toolType.ToString();
         updateActionsHistoryColor();
@@ -53,12 +53,12 @@ public class ActionHistoryManager : MonoBehaviour
     public void UNDOAction()
     {
         int index = 0;
-        foreach (Action.ActionData action in actionsHistory.ElementAt(currentActionIndexFromTopOfStack).GetComponent<Action>().actionDatas)
-        {
-            GetComponentInParent<DrawingManager>().setDrawingTexturePixel(action.position, action.previousColor);
-            index++;
-        }
-        GetComponentInParent<DrawingManager>().applyDrawingTexture();
+        // foreach (Action.ActionData action in actionsHistory.ElementAt(currentActionIndexFromTopOfStack).GetComponent<Action>().actionDatas)
+        // {
+        //     GetComponentInParent<DrawingManagerOld>().setDrawingTexturePixel(action.position, action.previousColor);
+        //     index++;
+        // }
+        GetComponentInParent<DrawingManagerOld>().applyDrawingTexture();
         currentActionIndexFromTopOfStack++;
         updateActionsHistoryColor();
     }
@@ -66,12 +66,12 @@ public class ActionHistoryManager : MonoBehaviour
     {
         int index = 0;
         currentActionIndexFromTopOfStack--;
-        foreach (Action.ActionData action in actionsHistory.ElementAt(currentActionIndexFromTopOfStack).GetComponent<Action>().actionDatas)
-        {
-            GetComponentInParent<DrawingManager>().setDrawingTexturePixel(action.position, action.newColor);
-            index++;
-        }
-        GetComponentInParent<DrawingManager>().applyDrawingTexture();
+        // foreach (ActionClass.ActionData action in actionsHistory.ElementAt(currentActionIndexFromTopOfStack).GetComponent<Action>().actionDatas)
+        // {
+        //     GetComponentInParent<DrawingManagerOld>().setDrawingTexturePixel(action.position, action.newColor);
+        //     index++;
+        // }
+        GetComponentInParent<DrawingManagerOld>().applyDrawingTexture();
         updateActionsHistoryColor();
     }
 

@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Action : MonoBehaviour
+public class ActionClass : MonoBehaviour
 {
     public DrawingToolManager.ToolType type;
     public struct ActionData

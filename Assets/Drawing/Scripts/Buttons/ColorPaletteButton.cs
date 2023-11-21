@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class color_palette_button : MonoBehaviour, IPointerClickHandler
+public class ColorPaletteButton : MonoBehaviour, IPointerClickHandler
 {
-    public class ColorAndCoordinates
+    public struct ColorAndCoordinates
     {
         public Color color;
         public Vector2 coordinates;
@@ -11,17 +11,27 @@ public class color_palette_button : MonoBehaviour, IPointerClickHandler
     }
     public ColorAndCoordinates colorAndCoordinates;
     public GameObject outline;
+    public ColorsManager colorsManager;
     public int nameAsIndex;
 
     public Vector2 coordinatesOnSpectrumTexture;
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         // color = GetComponent<UnityEngine.UI.Image>().color;
-        GetComponent<UnityEngine.UI.Image>().color = colorAndCoordinates.color;
         nameAsIndex = int.Parse(name.Split("palette_")[1]) - 1;
-        if (GetComponentInParent<colors_manager>().currentPaletteIndex == nameAsIndex)
-            outline.GetComponent<UnityEngine.UI.Image>().color = GetComponentInParent<colors_manager>().selectedOutlineColor;
+        colorsManager = GetComponentInParent<ColorsManager>();
+        if (colorsManager.currentPaletteIndex == nameAsIndex)
+            outline.GetComponent<UnityEngine.UI.Image>().color = colorsManager.selectedOutlineColor;
+        else
+        {
+            outline.GetComponent<UnityEngine.UI.Image>().color = colorsManager.defaultOutlineColor;
+        }
+    }
+
+    public void Update()
+    {
+        GetComponent<UnityEngine.UI.Image>().color = colorAndCoordinates.color;
     }
 
     public void OnPointerClick(PointerEventData pointerEventData)
@@ -29,8 +39,8 @@ public class color_palette_button : MonoBehaviour, IPointerClickHandler
         //Use this to tell when the user left-clicks on the Button
         if (pointerEventData.button == PointerEventData.InputButton.Left)
         {
-            GetComponentInParent<colors_manager>().SetCurrentPaletteIndex(nameAsIndex);
-            outline.GetComponent<UnityEngine.UI.Image>().color = GetComponentInParent<colors_manager>().selectedOutlineColor;
+            colorsManager.SetCurrentPaletteIndex(nameAsIndex);
+            outline.GetComponent<UnityEngine.UI.Image>().color = colorsManager.selectedOutlineColor;
             if (nameAsIndex == 0 || nameAsIndex == 1)
             {
                 transform.SetSiblingIndex(15);
@@ -40,7 +50,7 @@ public class color_palette_button : MonoBehaviour, IPointerClickHandler
 
     public void resetOutlineColor()
     {
-        outline.GetComponent<UnityEngine.UI.Image>().color = GetComponentInParent<colors_manager>().defaultOutlineColor;
+        outline.GetComponent<UnityEngine.UI.Image>().color = colorsManager.defaultOutlineColor;
     }
 
     public void setColorAndCoordinates(ColorAndCoordinates inputColorAndCoordinates)

@@ -9,8 +9,8 @@ public class SavingToolManager : MonoBehaviour
     public void save()
     {
         Debug.Log("Saving");
-        Texture2D colorTexture = GetComponentInParent<DrawingManager>().getColorTexture();
-        Texture2D heightTexture = GetComponentInParent<DrawingManager>().getHeightTexture();
+        Texture2D colorTexture = GetComponentInParent<DrawingManagerOld>().getColorTexture();
+        Texture2D heightTexture = GetComponentInParent<DrawingManagerOld>().getHeightTexture();
         float minimumX = colorTexture.width;
         float maximumX = 0;
         float minimumY = colorTexture.height;

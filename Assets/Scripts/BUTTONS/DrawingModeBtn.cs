@@ -16,7 +16,7 @@ public class DrawingModeBtn : MonoBehaviour, IPointerClickHandler
         //Use this to tell when the user left-clicks on the Button
         if (pointerEventData.button == PointerEventData.InputButton.Left)
         {
-            GetComponentInParent<DrawingManager>().switchDrawingMode();
+            // GetComponentInParent<DrawingManager>().switchDrawingMode();
         }
     }
     public void switchColor()

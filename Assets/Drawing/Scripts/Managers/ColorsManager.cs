@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class colors_manager : MonoBehaviour
+public class ColorsManager : MonoBehaviour
 {
     public GameObject color_palette_1;
     public GameObject color_palette_2;
@@ -29,8 +29,10 @@ public class colors_manager : MonoBehaviour
     public int currentPaletteIndex = 0;
     public Color currentColor;
 
+    private bool firstUpdate = true;
+
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         color_palette = new List<GameObject>{
             color_palette_1,
@@ -48,15 +50,24 @@ public class colors_manager : MonoBehaviour
             color_palette_13,
             color_palette_14
         };
-        List<color_palette_button.ColorAndCoordinates> initialColorAndCoordinates = color_spectrum.GetComponent<color_palette_spectrum>().initialPaletteColorsAndCoordinates(color_palette.Count);
+
+        List<ColorPaletteButton.ColorAndCoordinates> initialColorAndCoordinates = color_spectrum.GetComponent<ColorSpectrum>().initialPaletteColorsAndCoordinates(color_palette.Count);
         int i = 0;
         foreach (GameObject color in color_palette)
         {
-            color.GetComponent<color_palette_button>().colorAndCoordinates = initialColorAndCoordinates[i];
+            color.GetComponent<ColorPaletteButton>().colorAndCoordinates = initialColorAndCoordinates[i];
             i++;
         }
+    }
 
-        SetCurrentPaletteIndex(0);
+    void Update()
+    {
+        if (firstUpdate)
+        {
+            SetCurrentPaletteIndex(0);
+            color_palette[currentPaletteIndex].GetComponent<ColorPaletteButton>().outline.GetComponent<UnityEngine.UI.Image>().color = selectedOutlineColor;
+            firstUpdate = false;
+        }
     }
 
     public void SetCurrentPaletteIndex(int index)
@@ -64,15 +75,15 @@ public class colors_manager : MonoBehaviour
         currentPaletteIndex = index;
         foreach (GameObject color_palette_iterator in color_palette)
         {
-            color_palette_iterator.GetComponent<color_palette_button>().resetOutlineColor();
+            color_palette_iterator.GetComponent<ColorPaletteButton>().resetOutlineColor();
         }
-        currentColor = color_palette[currentPaletteIndex].GetComponent<color_palette_button>().colorAndCoordinates.color;
-        color_spectrum.GetComponent<color_palette_spectrum>().SetCursorPosition(color_palette[currentPaletteIndex].GetComponent<color_palette_button>().colorAndCoordinates.coordinates);
+        currentColor = color_palette[currentPaletteIndex].GetComponent<ColorPaletteButton>().colorAndCoordinates.color;
+        color_spectrum.GetComponent<ColorSpectrum>().SetCursorPosition(color_palette[currentPaletteIndex].GetComponent<ColorPaletteButton>().colorAndCoordinates.coordinates);
     }
 
-    public void ModifyColor(color_palette_button.ColorAndCoordinates colorAndCoordinates)
+    public void ModifyColor(ColorPaletteButton.ColorAndCoordinates colorAndCoordinates)
     {
-        color_palette[currentPaletteIndex].GetComponent<color_palette_button>().setColorAndCoordinates(colorAndCoordinates);
-        currentColor = color_palette[currentPaletteIndex].GetComponent<color_palette_button>().colorAndCoordinates.color;
+        color_palette[currentPaletteIndex].GetComponent<ColorPaletteButton>().setColorAndCoordinates(colorAndCoordinates);
+        currentColor = color_palette[currentPaletteIndex].GetComponent<ColorPaletteButton>().colorAndCoordinates.color;
     }
 }

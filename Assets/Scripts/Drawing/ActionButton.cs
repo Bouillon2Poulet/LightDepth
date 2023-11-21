@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ActionButton : MonoBehaviour, IPointerClickHandler
+public class ActionButtonOld : MonoBehaviour, IPointerClickHandler
 {
     public bool isNext;
     bool canBeClicked;

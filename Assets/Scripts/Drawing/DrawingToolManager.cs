@@ -43,7 +43,7 @@ public class DrawingToolManager : MonoBehaviour
                 erase(drawingTexture, pixelsCoordinates, currentAction);
                 break;
             case ToolType.bucket:
-                currentAction.printActionDatas();
+                // currentAction.printActionDatas();
                 //Faire qu'une fois et pas à chaque frame
                 if (currentAction.actionDatas.Count == 0)
                 {
@@ -65,7 +65,7 @@ public class DrawingToolManager : MonoBehaviour
     public void draw(Texture2D drawingTexture, List<Vector2> pixelsCoordinates, Action currentAction)
     {
         Debug.Log("!");
-        currentAction.addActionData(pixelsCoordinates, drawingTexture, colorManager.GetComponent<ColorManager>().getCurrentColor());
+        // currentAction.addActionData(pixelsCoordinates, drawingTexture, colorManager.GetComponent<ColorManager>().getCurrentColor());
         Debug.Log("?");
 
         foreach (Vector2 pixelCoordinates in pixelsCoordinates)
@@ -77,7 +77,7 @@ public class DrawingToolManager : MonoBehaviour
     void erase(Texture2D drawingTexture, List<Vector2> pixelsCoordinates, Action currentAction)
     {
         Color eraseColor = new Color(1, 1, 1, 0);
-        currentAction.addActionData(pixelsCoordinates, drawingTexture, eraseColor);
+        // currentAction.addActionData(pixelsCoordinates, drawingTexture, eraseColor);
         foreach (Vector2 pixelCoordinates in pixelsCoordinates)
         {
             drawingTexture.SetPixel((int)pixelCoordinates.x, (int)pixelCoordinates.y, eraseColor);
@@ -123,7 +123,7 @@ public class DrawingToolManager : MonoBehaviour
         {
             positionToFill
         };
-        currentAction.addActionData(listTemp, drawingTexture, colorManager.GetComponent<ColorManager>().getCurrentColor());
+        // currentAction.addActionData(listTemp, drawingTexture, colorManager.GetComponent<ColorManager>().getCurrentColor());
         drawingTexture.SetPixel((int)positionToFill.x, (int)positionToFill.y, colorManager.GetComponent<ColorManager>().getCurrentColor());
 
         Debug.Log("Taille actionDatas avant voisin" + currentAction.actionDatas.Count);

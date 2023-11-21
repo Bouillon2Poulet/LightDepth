@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Experimental.Rendering;
 
-public class DrawingManager : MonoBehaviour
+public class DrawingManagerOld : MonoBehaviour
 {
     //INPUT
     public Vector2 textureDimension = new Vector2(50, 50);

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class mode_manager : MonoBehaviour
+public class ModeManager : MonoBehaviour
 {
     public enum Mode
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ToolButton : MonoBehaviour, IPointerClickHandler
+public class ToolButtonOld : MonoBehaviour, IPointerClickHandler
 {
     //Detect if a click occurs
     public void OnPointerClick(PointerEventData pointerEventData)
@@ -11,7 +11,7 @@ public class ToolButton : MonoBehaviour, IPointerClickHandler
         {
             string textToRemove = "_btn";
             string nameWithout_btn = this.name.Replace(textToRemove, "");
-                GetComponentInParent<DrawingToolManager>().setCurrentToolTypeFromString(nameWithout_btn, GetComponent<UnityEngine.UI.Image>().sprite);
+            GetComponentInParent<DrawingToolManager>().setCurrentToolTypeFromString(nameWithout_btn, GetComponent<UnityEngine.UI.Image>().sprite);
         }
     }
 

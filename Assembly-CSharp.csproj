@@ -66,41 +66,69 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Generation3D.cs" />
     <Compile Include="Assets\Scripts\Drawing\ToolButton.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Utilitary\IsOvered.cs" />
     <Compile Include="Assets\Scripts\Drawing\Cursor.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingManager.cs" />
-    <Compile Include="Assets\Drawing\Scripts\Managers\preview3D_manager.cs" />
-    <Compile Include="Assets\Drawing\Scripts\Buttons\mode_button.cs" />
     <Compile Include="Assets\Scripts\Drawing\SaveButton.cs" />
     <Compile Include="Assets\Scripts\BUTTONS\DrawingModeBtn.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Managers\ToolsManager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Class\Action.cs" />
     <Compile Include="Assets\Scripts\CameraRotation.cs" />
     <Compile Include="Assets\Scripts\GetTextureDimensions.cs" />
-    <Compile Include="Assets\Scripts\Drawing\IsHovered.cs" />
     <Compile Include="Assets\Scripts\Drawing\ActionClass.cs" />
     <Compile Include="Assets\Scripts\Drawing\BackgroundTextureGenerator.cs" />
     <Compile Include="Assets\Scripts\Drawing\ColorManager.cs" />
-    <Compile Include="Assets\Drawing\Scripts\Managers\colors_manager.cs" />
-    <Compile Include="Assets\Drawing\Scripts\Buttons\preview3D_button.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Class\ActionDatas.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Buttons\ToolButton.cs" />
     <Compile Include="Assets\Scripts\CameraRotation1.cs" />
     <Compile Include="Assets\Scripts\PixelGenerator.cs" />
     <Compile Include="Assets\Scripts\Drawing\CameraMovement.cs" />
-    <Compile Include="Assets\Drawing\Scripts\Buttons\tool_button.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Class\CursorDatas.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Buttons\ColorPaletteButton.cs" />
     <Compile Include="Assets\Scripts\Drawing\ActionHistoryManager.cs" />
     <Compile Include="Assets\Scripts\Drawing\ColorWheel.cs" />
     <Compile Include="Assets\Scripts\Drawing\ActionButton.cs" />
     <Compile Include="Assets\Scripts\Drawing\ToolCursor.cs" />
-    <Compile Include="Assets\Drawing\Scripts\Managers\mode_manager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Buttons\ModeButton.cs" />
     <Compile Include="Assets\Scripts\BUTTONS\Preview3D_Btn.cs" />
-    <Compile Include="Assets\Drawing\Scripts\Buttons\color_palette_button.cs" />
-    <Compile Include="Assets\Drawing\Scripts\Managers\tools_manager.cs" />
     <Compile Include="Assets\Scripts\Drawing\SavingToolManager.cs" />
-    <Compile Include="Assets\Drawing\Scripts\Buttons\color_palette_spectrum.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingName.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Buttons\Preview3D_button.cs" />
     <Compile Include="Assets\Scripts\Drawing\CurrentColorButton.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingToolManager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Managers\ModeManager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Managers\HistoryManager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Managers\DrawingManager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Managers\ColorsManager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Managers\Preview3DManager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Managers\LayersManager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Buttons\ColorSpectrum.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Buttons\ActionButton.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\Shaders\DoubleSidedShader.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\Shaders\drawingCanvasShader.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -977,6 +1005,14 @@
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
