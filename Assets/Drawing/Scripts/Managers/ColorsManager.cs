@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using HSVPicker;
 public class ColorsManager : MonoBehaviour
 {
     public GameObject color_palette_1;
@@ -29,6 +30,8 @@ public class ColorsManager : MonoBehaviour
     public Color currentColor;
 
     private bool firstUpdate = true;
+    // public Renderer renderer;
+    public ColorPicker picker;
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +60,14 @@ public class ColorsManager : MonoBehaviour
             color.GetComponent<ColorPaletteButton>().colorAndCoordinates = initialColorAndCoordinates[i];
             i++;
         }
+
+        //TODO POUR CHANGER LES VALUES
+        picker.CurrentColor = Color.green;
+        //         picker.onValueChanged.AddListener(color =>
+        // {
+        //     renderer.material.color = color;
+        // });
+        // renderer.material.color = picker.CurrentColor;
     }
 
     void Update()
@@ -78,11 +89,13 @@ public class ColorsManager : MonoBehaviour
             color_palette_iterator.GetComponent<ColorPaletteButton>().resetOutlineColor();
         }
         currentColor = color_palette[currentPaletteIndex].GetComponent<ColorPaletteButton>().colorAndCoordinates.color;
-        color_spectrum.GetComponent<ColorSpectrum>().SetCursorPosition(color_palette[currentPaletteIndex].GetComponent<ColorPaletteButton>().colorAndCoordinates.coordinates);
+        // color_spectrum.GetComponent<ColorSpectrum>().SetCursorPosition(color_palette[currentPaletteIndex].GetComponent<ColorPaletteButton>().colorAndCoordinates.coordinates);
+        picker.GetComponent<HSVPicker.ColorPicker>().CurrentColor = currentColor;
     }
 
     public void ModifyColor(ColorPaletteButton.ColorAndCoordinates colorAndCoordinates)
     {
+        // Debug.Log("!!");
         color_palette[currentPaletteIndex].GetComponent<ColorPaletteButton>().setColorAndCoordinates(colorAndCoordinates);
         currentColor = color_palette[currentPaletteIndex].GetComponent<ColorPaletteButton>().colorAndCoordinates.color;
     }

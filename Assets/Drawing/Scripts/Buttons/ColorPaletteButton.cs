@@ -58,6 +58,7 @@ public class ColorPaletteButton : MonoBehaviour, IPointerClickHandler
     public void setColorAndCoordinates(ColorAndCoordinates inputColorAndCoordinates)
     {
         colorAndCoordinates = inputColorAndCoordinates;
+        Debug.Log(inputColorAndCoordinates.color);
         GetComponent<UnityEngine.UI.Image>().color = colorAndCoordinates.color;
     }
 }

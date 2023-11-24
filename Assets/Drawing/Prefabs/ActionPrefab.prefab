@@ -292,8 +292,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: PEN
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7db4137f30237074d883c7bfd118987c, type: 2}
-  m_sharedMaterial: {fileID: -8066983585589563498, guid: 7db4137f30237074d883c7bfd118987c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3c7cb67017903b74db75dba5a77fb976, type: 2}
+  m_sharedMaterial: {fileID: -4696051172429191014, guid: 3c7cb67017903b74db75dba5a77fb976, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

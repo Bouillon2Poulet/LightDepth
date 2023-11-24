@@ -14,6 +14,20 @@ namespace HSVPicker
 
         [Header("Setup")]
         public ColorPickerSetup Setup;
+        public GameObject ColorModeButtonSprite;
+        public Sprite ColorModeButtonSpriteRGB;
+        public Sprite ColorModeButtonSpriteHSV;
+        public GameObject ColorModeSlidersText;
+
+        public Sprite ColorModeSlidersTextRGB;
+        public Sprite ColorModeSlidersTextHSV;
+        public GameObject RGBSliders;
+        public GameObject RGBSlidersBackground;
+        public GameObject HSVSliders;
+        public GameObject HSVSlidersBackground
+        ;
+
+
 
         [Header("Event")]
         public ColorChangedEvent onValueChanged = new ColorChangedEvent();
@@ -33,7 +47,7 @@ namespace HSVPicker
                 _color = value;
 
                 RGBChanged();
-            
+
                 SendChangedEvent();
             }
         }
@@ -57,14 +71,14 @@ namespace HSVPicker
         /// </summary>
         private void Regenerate()
         {
-            Setup.AlphaSlidiers.Toggle(Setup.ShowAlpha);
+            // Setup.AlphaSlidiers.Toggle(Setup.ShowAlpha);
             Setup.ColorToggleElement.Toggle(Setup.ShowColorSliderToggle);
             Setup.RgbSliders.Toggle(Setup.ShowRgb);
             Setup.HsvSliders.Toggle(Setup.ShowHsv);
             Setup.ColorBox.Toggle(Setup.ShowColorBox);
 
             HandleHeaderSetting(Setup.ShowHeader);
-            UpdateColorToggleText();
+            UpdateColorModeButtonSprite();
 
             RGBChanged();
         }
@@ -220,6 +234,13 @@ namespace HSVPicker
         {
             onValueChanged.Invoke(CurrentColor);
             onHSVChanged.Invoke(_hue, _saturation, _brightness);
+            ColorPaletteButton.ColorAndCoordinates colorAndCoordinates = new ColorPaletteButton.ColorAndCoordinates
+            {
+                color = CurrentColor,
+                coordinates = new Vector2(0, 0)
+            };
+            // Debug.Log(CurrentColor.ToString());
+            GetComponentInParent<ColorsManager>().ModifyColor(colorAndCoordinates);
         }
 
         public void AssignColor(ColorValues type, float value)
@@ -286,27 +307,39 @@ namespace HSVPicker
             Setup.ShowRgb = !Setup.ShowRgb;
             Setup.HsvSliders.Toggle(Setup.ShowHsv);
             Setup.RgbSliders.Toggle(Setup.ShowRgb);
-            
+
             onHSVChanged.Invoke(_hue, _saturation, _brightness);
 
-            UpdateColorToggleText();
+            UpdateColorModeButtonSprite();
         }
 
-        void UpdateColorToggleText()
+        void UpdateColorModeButtonSprite()
         {
             if (Setup.SliderToggleButtonText == null)
             {
                 return;
             }
-            
+
             if (Setup.ShowRgb)
             {
                 Setup.SliderToggleButtonText.text = "RGB";
+                ColorModeButtonSprite.GetComponent<UnityEngine.UI.Image>().sprite = ColorModeButtonSpriteRGB;
+                ColorModeSlidersText.GetComponent<UnityEngine.UI.Image>().sprite = ColorModeSlidersTextRGB;
+                RGBSliders.SetActive(true);
+                RGBSlidersBackground.SetActive(true);
+                HSVSliders.SetActive(false);
+                // HSVSlidersBackground.SetActive(false);
             }
 
             if (Setup.ShowHsv)
             {
                 Setup.SliderToggleButtonText.text = "HSV";
+                ColorModeButtonSprite.GetComponent<UnityEngine.UI.Image>().sprite = ColorModeButtonSpriteHSV;
+                ColorModeSlidersText.GetComponent<UnityEngine.UI.Image>().sprite = ColorModeSlidersTextHSV;
+                HSVSliders.SetActive(true);
+                // HSVSlidersBackground.SetActive(true);
+                RGBSliders.SetActive(false);
+                RGBSlidersBackground.SetActive(false);
             }
         }
 
