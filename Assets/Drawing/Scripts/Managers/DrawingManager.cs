@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class DrawingManager : MonoBehaviour
@@ -55,9 +56,11 @@ public class DrawingManager : MonoBehaviour
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
                 {
                     cursorData.update(worldPositionToTexturePosition(hit.point));
-                    layersManager.getCurrentLayerTexture().SetPixel(cursorData.currentPixelPosition.x, cursorData.currentPixelPosition.y, Color.black);
-                    layersManager.getCurrentLayerTexture().Apply();
+                    // toolsManager.useTool(layersManager.getCurrentLayerTexture(), cursorData, historyManager.getCurrentAction(), colorsManager.currentColor);
+                    // layersManager.getCurrentLayerTexture().SetPixel(cursorData.currentPixelPosition.x, cursorData.currentPixelPosition.y, Color.black);
+                    // layersManager.getCurrentLayerTexture().Apply();
                 }
+
             }
             else if (!GetComponentInChildren<IsOvered>().isOvered)
             {

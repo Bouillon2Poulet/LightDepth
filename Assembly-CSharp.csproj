@@ -64,9 +64,11 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.0f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Drawing\Scripts\Tools\ToolPen.cs" />
     <Compile Include="Assets\Scripts\Generation3D.cs" />
     <Compile Include="Assets\Scripts\Drawing\ToolButton.cs" />
     <Compile Include="Assets\Drawing\Scripts\Utilitary\IsOvered.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Managers\ColorPickerManager.cs" />
     <Compile Include="Assets\Scripts\Drawing\Cursor.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingManager.cs" />
     <Compile Include="Assets\Scripts\Drawing\SaveButton.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="Assets\Scripts\Drawing\BackgroundTextureGenerator.cs" />
     <Compile Include="Assets\Scripts\Drawing\ColorManager.cs" />
     <Compile Include="Assets\Drawing\Scripts\Class\ActionDatas.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Utilitary\ColorConverter.cs" />
     <Compile Include="Assets\Drawing\Scripts\Buttons\ToolButton.cs" />
     <Compile Include="Assets\Scripts\CameraRotation1.cs" />
     <Compile Include="Assets\Scripts\PixelGenerator.cs" />
@@ -90,8 +93,10 @@
     <Compile Include="Assets\Scripts\Drawing\ActionButton.cs" />
     <Compile Include="Assets\Scripts\Drawing\ToolCursor.cs" />
     <Compile Include="Assets\Drawing\Scripts\Buttons\ModeButton.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Tools\ToolEraser.cs" />
     <Compile Include="Assets\Scripts\BUTTONS\Preview3D_Btn.cs" />
     <Compile Include="Assets\Scripts\Drawing\SavingToolManager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Tools\ToolBucket.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingName.cs" />
     <Compile Include="Assets\Drawing\Scripts\Buttons\Preview3D_button.cs" />
     <Compile Include="Assets\Scripts\Drawing\CurrentColorButton.cs" />
@@ -955,6 +960,14 @@
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="HSVPicker.Editors">
+      <HintPath>Library\ScriptAssemblies\HSVPicker.Editors.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="HSVPicker">
+      <HintPath>Library\ScriptAssemblies\HSVPicker.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
       <Private>False</Private>
@@ -991,8 +1004,16 @@
       <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Shaders">
@@ -1005,14 +1026,6 @@
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">

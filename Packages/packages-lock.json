@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.judahperez.hsvcolorpicker": {
+      "version": "file:HSV-Color-Picker-Unity-3.2.2",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.burst": {
       "version": "1.8.4",
       "depth": 1,

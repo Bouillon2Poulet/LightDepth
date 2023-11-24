@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Experimental.Rendering;
 
 public class ColorSpectrum : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -86,4 +87,53 @@ public class ColorSpectrum : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
     {
         color_spectrum_cursor.GetComponent<RectTransform>().anchoredPosition = coordinates - new Vector2(spectrumTexture.width / 2, spectrumTexture.height / 2);
     }
+
+    public void InitSpectrumTexture()
+    {
+        Vector2Int textureSize = new Vector2Int(85, 85);
+
+        Texture2D spectrumTexture = new Texture2D(textureSize.x, textureSize.y, GraphicsFormat.R8G8B8A8_UNorm, TextureCreationFlags.None)
+        {
+            name = "spectrumTexture",
+            filterMode = FilterMode.Bilinear,
+            alphaIsTransparency = true
+        };
+
+        for (int y = 0; y < textureSize.y; y++)
+        {
+            // Calcul de la luminosité en fonction de la position verticale
+            float luminosity = Mathf.Clamp01(2f * (float)y / textureSize.y);
+            float saturation = (float)y / textureSize.y < 0.5f ? 1f : (1f - (float)y / textureSize.y) * 2f;
+
+            for (int x = 0; x < textureSize.x; x++)
+            {
+                // Calcul de la teinte en fonction de la position horizontale (tous les pixels de l'arc-en-ciel)
+                float hue = x / (float)textureSize.x;
+
+                // Conversion de HSV à RGB
+                Color pixelColor = Color.HSVToRGB(hue, saturation, luminosity);
+
+                spectrumTexture.SetPixel(x, y, pixelColor);
+            }
+        }
+
+        spectrumTexture.Apply();
+
+        // Appliquer la texture à votre objet, par exemple une image UI
+        UnityEngine.UI.Image imageComponent = GetComponent<UnityEngine.UI.Image>();
+        if (imageComponent != null)
+        {
+            imageComponent.sprite = Sprite.Create(spectrumTexture, new Rect(0, 0, spectrumTexture.width, spectrumTexture.height), new Vector2(0.5f, 0.5f));
+        }
+        else
+        {
+            Debug.LogError("Aucun composant Image trouvé sur l'objet.");
+        }
+    }
+
+    public void HSLtoPositionInSpectrumTexture(Vector3 HSLcolor)
+    {
+        
+    }
+
 }

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class ColorsManager : MonoBehaviour
 {
     public GameObject color_palette_1;
@@ -66,6 +65,7 @@ public class ColorsManager : MonoBehaviour
         {
             SetCurrentPaletteIndex(0);
             color_palette[currentPaletteIndex].GetComponent<ColorPaletteButton>().outline.GetComponent<UnityEngine.UI.Image>().color = selectedOutlineColor;
+            color_spectrum.GetComponent<ColorSpectrum>().InitSpectrumTexture();
             firstUpdate = false;
         }
     }

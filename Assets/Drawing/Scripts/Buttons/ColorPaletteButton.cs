@@ -1,3 +1,4 @@
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,6 +12,7 @@ public class ColorPaletteButton : MonoBehaviour, IPointerClickHandler
     }
     public ColorAndCoordinates colorAndCoordinates;
     public GameObject outline;
+    public AssemblyDefinitionReferenceAsset ManagersReference;
     public ColorsManager colorsManager;
     public int nameAsIndex;
 

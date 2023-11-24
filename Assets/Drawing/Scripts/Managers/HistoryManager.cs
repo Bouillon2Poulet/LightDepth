@@ -68,4 +68,9 @@ public class HistoryManager : MonoBehaviour
         }
         history.ElementAt(currentActionIndex).GetComponent<Action>().setActiveBackgroundColor();
     }
+
+    public Action getCurrentAction()
+    {
+        return history.ElementAt(currentActionIndex).GetComponent<Action>();
+    }
 }
