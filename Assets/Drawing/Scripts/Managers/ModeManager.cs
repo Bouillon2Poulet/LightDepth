@@ -15,7 +15,7 @@ public class ModeManager : MonoBehaviour
     public GameObject mode_second;
 
     public GameObject colors_color;
-    public GameObject colors_height;
+    // public GameObject colors_height;
 
     public Sprite mode_color_first;
     public Sprite mode_color_second;
@@ -33,14 +33,14 @@ public class ModeManager : MonoBehaviour
         if (currentMode == Mode.color)
         {
             currentMode = Mode.height;
-            colors_height.SetActive(true);
+            // colors_height.SetActive(true);
             colors_color.SetActive(false);
         }
         else if (currentMode == Mode.height)
         {
             currentMode = Mode.color;
             colors_color.SetActive(true);
-            colors_height.SetActive(false);
+            // colors_height.SetActive(false);
         }
         switchModeColors();
     }

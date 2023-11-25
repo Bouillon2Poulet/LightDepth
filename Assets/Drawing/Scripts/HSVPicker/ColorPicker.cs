@@ -234,13 +234,13 @@ namespace HSVPicker
         {
             onValueChanged.Invoke(CurrentColor);
             onHSVChanged.Invoke(_hue, _saturation, _brightness);
-            ColorPaletteButton.ColorAndCoordinates colorAndCoordinates = new ColorPaletteButton.ColorAndCoordinates
-            {
-                color = CurrentColor,
-                coordinates = new Vector2(0, 0)
-            };
+            // ColorPaletteButton.ColorAndCoordinates colorAndCoordinates = new ColorPaletteButton.ColorAndCoordinates
+            // {
+            //     color = CurrentColor,
+            //     coordinates = new Vector2(0, 0)
+            // };
             // Debug.Log(CurrentColor.ToString());
-            GetComponentInParent<ColorsManager>().ModifyColor(colorAndCoordinates);
+            // GetComponentInParent<ColorsManager>().ModifyColor(colorAndCoordinates);
         }
 
         public void AssignColor(ColorValues type, float value)

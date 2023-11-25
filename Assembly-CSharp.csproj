@@ -72,6 +72,7 @@
     <Compile Include="Assets\Drawing\Scripts\HSVPicker\ColorPresetManager.cs" />
     <Compile Include="Assets\Drawing\Scripts\Managers\ColorPickerManager.cs" />
     <Compile Include="Assets\Scripts\Drawing\Cursor.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Buttons\AddNewColorToPaletteButton.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingManager.cs" />
     <Compile Include="Assets\Scripts\Drawing\SaveButton.cs" />
     <Compile Include="Assets\Scripts\BUTTONS\DrawingModeBtn.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Assets\Scripts\Drawing\CurrentColorButton.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingToolManager.cs" />
     <Compile Include="Assets\Drawing\Scripts\Managers\ModeManager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Managers\ColorPaletteManager.cs" />
     <Compile Include="Assets\Drawing\Scripts\Managers\HistoryManager.cs" />
     <Compile Include="Assets\Drawing\Scripts\Managers\DrawingManager.cs" />
     <Compile Include="Assets\Drawing\Scripts\Managers\ColorsManager.cs" />

@@ -14,7 +14,7 @@ public class DrawingManager : MonoBehaviour
     HistoryManager historyManager;
     LayersManager layersManager;
     ToolsManager toolsManager;
-    ColorsManager colorsManager;
+    // ColorsManager colorsManager;
     ModeManager modeManager;
 
     // Start is called before the first frame update
@@ -27,7 +27,7 @@ public class DrawingManager : MonoBehaviour
         historyManager = UI_canvas.GetComponentInChildren<HistoryManager>();
         layersManager = UI_canvas.GetComponentInChildren<LayersManager>();
         toolsManager = UI_canvas.GetComponentInChildren<ToolsManager>();
-        colorsManager = UI_canvas.GetComponentInChildren<ColorsManager>();
+        // colorsManager = UI_canvas.GetComponentInChildren<ColorsManager>();
         modeManager = UI_canvas.GetComponentInChildren<ModeManager>();
         layersManager.initLayers(textureSize, pathToTempTexturesFolder);
 

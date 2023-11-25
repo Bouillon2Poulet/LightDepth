@@ -64,18 +64,18 @@ public class ToolsManager : MonoBehaviour
         }
     }
 
-    public void useTool(Texture2D currentTexture, CursorDatas cursorDatas, Action currentAction, ColorsManager colorsManager)
+    public void useTool(Texture2D currentTexture, CursorDatas cursorDatas, Action currentAction, ColorPaletteManager colorPaletteManager)
     {
         switch (currentTool)
         {
             case Tool.pen:
-                ToolPen.draw(currentTexture, cursorDatas, currentAction, colorsManager.currentColor);
+                ToolPen.draw(currentTexture, cursorDatas, currentAction, colorPaletteManager.CurrentColor);
                 break;
             case Tool.eraser:
-                ToolEraser.draw(currentTexture, cursorDatas, currentAction, colorsManager.currentColor);
+                ToolEraser.draw(currentTexture, cursorDatas, currentAction, colorPaletteManager.CurrentColor);
                 break;
             case Tool.bucket:
-                ToolBucket.draw(currentTexture, cursorDatas.currentPixelPosition, currentAction, colorsManager.currentColor);
+                ToolBucket.draw(currentTexture, cursorDatas.currentPixelPosition, currentAction, colorPaletteManager.CurrentColor);
                 break;
             case Tool.colorpicker:
                 break;
