@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DrawingManager : MonoBehaviour
 {
-    public Vector2Int textureSize = new Vector2Int(50, 50);
+    public Vector2Int textureSize = new Vector2Int(100, 100);
     public string pathToTempTexturesFolder;
     private Vector2 conversionWorldToTextureVector;
 
@@ -14,20 +14,19 @@ public class DrawingManager : MonoBehaviour
     HistoryManager historyManager;
     LayersManager layersManager;
     ToolsManager toolsManager;
-    // ColorsManager colorsManager;
+    ColorPaletteManager colorsManager;
     ModeManager modeManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        pathToTempTexturesFolder = System.IO.Path.Combine(Application.dataPath + "/Drawing/DrawingMesh/TexturesTemp/");
         conversionWorldToTextureVector = new Vector2(10, 10) / new Vector2(textureSize.x, textureSize.y);
         cursorData = new CursorDatas();
 
         historyManager = UI_canvas.GetComponentInChildren<HistoryManager>();
         layersManager = UI_canvas.GetComponentInChildren<LayersManager>();
         toolsManager = UI_canvas.GetComponentInChildren<ToolsManager>();
-        // colorsManager = UI_canvas.GetComponentInChildren<ColorsManager>();
+        colorsManager = UI_canvas.GetComponentInChildren<ColorPaletteManager>();
         modeManager = UI_canvas.GetComponentInChildren<ModeManager>();
         layersManager.initLayers(textureSize, pathToTempTexturesFolder);
 
@@ -56,7 +55,7 @@ public class DrawingManager : MonoBehaviour
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
                 {
                     cursorData.update(worldPositionToTexturePosition(hit.point));
-                    // toolsManager.useTool(layersManager.getCurrentLayerTexture(), cursorData, historyManager.getCurrentAction(), colorsManager.currentColor);
+                    toolsManager.useTool(layersManager.getCurrentLayerTexture(), cursorData, historyManager.getCurrentAction(), colorsManager);
                     // layersManager.getCurrentLayerTexture().SetPixel(cursorData.currentPixelPosition.x, cursorData.currentPixelPosition.y, Color.black);
                     // layersManager.getCurrentLayerTexture().Apply();
                 }
@@ -74,6 +73,7 @@ public class DrawingManager : MonoBehaviour
         Vector2 positionOnTexture = new Vector2(position.x, position.y) / conversionWorldToTextureVector;
         Vector2Int positionOnTextureAsInt = new Vector2Int((int)positionOnTexture.x, (int)positionOnTexture.y);
 
+        Debug.Log(positionOnTextureAsInt.x + "." + positionOnTextureAsInt.y);
         return positionOnTextureAsInt;
     }
 }

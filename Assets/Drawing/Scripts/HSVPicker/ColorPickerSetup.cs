@@ -30,6 +30,7 @@ namespace HSVPicker
 
         }
 
+        // public bool isHeightColorPickerSetup = tru
         public bool ShowRgb = true;
         public bool ShowHsv;
         public bool ShowAlpha = true;

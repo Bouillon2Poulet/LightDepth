@@ -23,6 +23,7 @@ public class ColorPaletteManager : MonoBehaviour
     private Color[] ColorPaletteColors;
 
     public ColorPicker picker;
+    public bool isHeightPalette;
 
     // Start is called before the first frame update
     void Start()
@@ -60,12 +61,25 @@ public class ColorPaletteManager : MonoBehaviour
 
     private void initColorPaletteColorsArray()
     {
-        for (int i = 0; i < 10; i++)
+        if (!isHeightPalette)
         {
-            Color color = HSVUtil.ConvertHsvToRgb(i * 360f / 11, 1, 1, 1);
-            ColorPaletteColors[i] = color;
+            for (int i = 0; i < 10; i++)
+            {
+                Color color = HSVUtil.ConvertHsvToRgb(i * 360f / 11, 1, 1, 1);
+                ColorPaletteColors[i] = color;
+            }
+            ColorPaletteColors[10] = Color.white;
         }
-        ColorPaletteColors[10] = Color.white;
+
+        else
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Color color = HSVUtil.ConvertHsvToRgb(0, 0, i / 10f, 1);
+                ColorPaletteColors[i] = color;
+            }
+            ColorPaletteColors[10] = Color.white;
+        }
     }
 
     private void updateColorPaletteColorsImages()
