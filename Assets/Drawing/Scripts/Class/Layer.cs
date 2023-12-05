@@ -14,6 +14,7 @@ public class Layer : MonoBehaviour
     void Start()
     {
         initTexture(ref texture, name + "Texture");
+        if (LayerType == LayersManager.LayerType.HeightMap) Opacity = 0.7f;
     }
 
     // Update is called once per frame
@@ -42,6 +43,14 @@ public class Layer : MonoBehaviour
     public void invertLayerVisibility()
     {
         visible = !visible;
+        if (LayerType == LayersManager.LayerType.HeightMap && visible == false)
+        {
+            GetComponentInParent<LayersManager>().modeManager.setCurrentMode(ModeManager.Mode.color);
+        }
+        else if (LayerType == LayersManager.LayerType.HeightMap && visible == true)
+        {
+            GetComponentInParent<LayersManager>().modeManager.setCurrentMode(ModeManager.Mode.height);
+        }
         sendOpacityToShader();
     }
 
@@ -104,7 +113,7 @@ public class Layer : MonoBehaviour
             case LayersManager.LayerType.ColorMap:
                 LayersManager.fillTextureWithColor(texture, new Color(0, 0, 0, 0)); break;
             case LayersManager.LayerType.HeightMap:
-                LayersManager.fillTextureWithColor(texture, new Color(0, 0, 0, 0)); break;
+                LayersManager.fillTextureWithColor(texture, new Color(0.5f, 0.5f, 0.5f, 1)); break;
             default: return;
         }
     }
@@ -113,5 +122,6 @@ public class Layer : MonoBehaviour
     {
         visible = visibility;
         GetComponentInChildren<LayerVisibilityButton>().setSpriteWithVisibility(visibility);
+        sendOpacityToShader();
     }
 }

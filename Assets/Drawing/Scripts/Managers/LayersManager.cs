@@ -42,6 +42,7 @@ public class LayersManager : MonoBehaviour
     {
         if (currentLayerIndex >= 0 && currentLayerIndex < layers.Count)
         {
+            // Debug.Log(layers.ElementAt(currentLayerIndex).texture);
             return layers.ElementAt(currentLayerIndex).texture;
         }
         else
@@ -77,22 +78,49 @@ public class LayersManager : MonoBehaviour
 
         if (currentLayerIndex == 2 && modeManager.currentMode == ModeManager.Mode.color) //HeightMap
         {
-            modeManager.swapCurrentMode();
+            modeManager.setCurrentMode(ModeManager.Mode.height);
             Background.setVisible(false);
             HeightMap.setVisible(true);
         }
 
         else if (currentLayerIndex == 1 && modeManager.currentMode == ModeManager.Mode.height) //HeightMap
         {
-            modeManager.swapCurrentMode();
+            modeManager.setCurrentMode(ModeManager.Mode.color);
             Background.setVisible(true);
             HeightMap.setVisible(false);
         }
 
-        else if (modeManager.currentMode == ModeManager.Mode.height)
+        // else if (modeManager.currentMode == ModeManager.Mode.height)
+        // {
+        //     modeManager.currentMode = ModeManager.Mode.color;
+        //     HeightMap.setVisible(false);
+        // }
+    }
+
+    public void updateLayersVisibilityAccordingToCurrentMode()
+    {
+        if (modeManager.currentMode == ModeManager.Mode.height)
         {
-            modeManager.currentMode = ModeManager.Mode.color;
+            HeightMap.setVisible(true);
+            Background.setVisible(false);
+        }
+        else if (modeManager.currentMode == ModeManager.Mode.color)
+        {
             HeightMap.setVisible(false);
+            Background.setVisible(true);
+        }
+    }
+
+    public ref Texture2D getTextureFromMode(ModeManager.Mode mode)
+    {
+        if (mode == ModeManager.Mode.color)
+        {
+            Debug.Log("colorMap");
+            return ref ColorMap.texture;
+        }
+        else
+        {
+            return ref HeightMap.texture;
         }
     }
 }

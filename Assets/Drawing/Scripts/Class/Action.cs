@@ -19,8 +19,21 @@ public class Action : MonoBehaviour
     public Sprite selectedBackgroundColor;
 
     public int index = 0;
-    public List<ActionDatas> actionDatas;
 
+
+    public struct ActionData
+    {
+        public Vector2Int position;
+        public Color colorBeforeAction;
+        public Color colorAfterAction;
+    }
+
+    public List<ActionData> actionDatas;
+
+    public void Start()
+    {
+        actionDatas = new List<ActionData>();
+    }
     public void initAction(ToolsManager.Tool tool, ModeManager.Mode mode)
     {
         this.tool = tool;
@@ -37,13 +50,16 @@ public class Action : MonoBehaviour
     public string toolAsText(ToolsManager.Tool tool)
     {
         if (tool == ToolsManager.Tool.pen) return "pen";
-        if (tool == ToolsManager.Tool.eraser) return "pen";
+        if (tool == ToolsManager.Tool.eraser) return "eraser";
         if (tool == ToolsManager.Tool.colorpicker) return "clrpick";
         else return "error";
     }
-    public void addActionDatas(ActionDatas actionDatas)
+    public void addActionDatas(List<ActionData> actionDatasToAdd)
     {
-        this.actionDatas.Add(actionDatas);
+        foreach (ActionData actionData in actionDatasToAdd)
+        {
+            actionDatas.Add(actionData);
+        }
     }
 
     public void resetBackgroundColor()
@@ -61,6 +77,26 @@ public class Action : MonoBehaviour
         this.index = index;
         name = "action" + index;
         actionBackground.name = "actionBackground" + index;
+    }
+
+    public void printActionDatas()
+    {
+        foreach (ActionData data in actionDatas)
+        {
+            Debug.Log(data.position);
+        }
+    }
+
+    public bool containsPixel(Vector2Int pixelPosition)
+    {
+        foreach (ActionData action in actionDatas)
+        {
+            if (action.position == pixelPosition)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

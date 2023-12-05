@@ -8,7 +8,7 @@ public class ActionButton : MonoBehaviour, IPointerClickHandler
         //Use this to tell when the user left-clicks on the Button
         if (pointerEventData.button == PointerEventData.InputButton.Left)
         {
-            GetComponentInParent<HistoryManager>().setCurrentActionIndex(GetComponentInParent<Action>().index);
+            GetComponentInParent<HistoryManager>().moveToAction(GetComponentInParent<Action>().index);
         }
     }
 }

@@ -47,7 +47,7 @@ public class preview3D_manager : MonoBehaviour
     }
     public void showCurrentPreview()
     {
-        Debug.Log((int)currentSize);
+        // Debug.Log((int)currentSize);
         previews[(int)currentSize].SetActive(true);
     }
 }

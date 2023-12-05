@@ -72,10 +72,11 @@ public class ToolsManager : MonoBehaviour
                 ToolPen.draw(currentTexture, cursorDatas, currentAction, colorPaletteManager.CurrentColor);
                 break;
             case Tool.eraser:
-                ToolEraser.draw(currentTexture, cursorDatas, currentAction, colorPaletteManager.CurrentColor);
+                ToolEraser.erase(currentTexture, cursorDatas, currentAction);
                 break;
             case Tool.bucket:
-                ToolBucket.draw(currentTexture, cursorDatas.currentPixelPosition, currentAction, colorPaletteManager.CurrentColor);
+                ToolBucket.fill(currentTexture, cursorDatas.currentPixelPosition, currentAction, currentTexture.GetPixel(cursorDatas.currentPixelPosition.x, cursorDatas.currentPixelPosition.y), colorPaletteManager.CurrentColor, ToolBucket.CaseType.zero);
+                currentTexture.Apply();
                 break;
             case Tool.colorpicker:
                 break;
