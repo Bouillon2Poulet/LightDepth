@@ -147,7 +147,11 @@ public class HistoryManager : MonoBehaviour
 
     public Action getCurrentAction()
     {
-        return history.ElementAt(currentActionIndex).GetComponent<Action>();
+        if (history.Count > 0)
+        {
+            return history.ElementAt(currentActionIndex).GetComponent<Action>();
+        }
+        else return new Action();
     }
 
     public void UndoAction(int numberOfUndo)
@@ -202,13 +206,5 @@ public class HistoryManager : MonoBehaviour
             }
         }
         setCurrentActionIndex(currentActionIndex - numberOfRedo);
-    }
-
-    public void moveIntoHistory(int index)
-    {
-        if (index > 0)
-        {
-
-        }
     }
 }

@@ -28,25 +28,52 @@ public static class ToolBucket
             return;
         }
 
+        Stack<Vector2Int> stack = new Stack<Vector2Int>();
+        HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
+
         List<Action.ActionData> actionDatas = new List<Action.ActionData>();
-        Action.ActionData actionData = new Action.ActionData();
-        actionData.position = position;
-        actionData.colorBeforeAction = texture.GetPixel(position.x, position.y);
-        actionData.colorAfterAction = currentColor;
-        actionDatas.Add(actionData);
+
+        stack.Push(position);
+
+        int i = 0;
+        while (stack.Count > 0)
+        {
+            i++;
+            if (i > texture.width * texture.height * 2) return; //TODO  : Find a better way to avoid infinite loop ?
+            Vector2Int currentPos = stack.Pop();
+
+            if (visited.Contains(currentPos))
+            {
+                continue; // Skip if already visited
+            }
+
+            visited.Add(currentPos);
+
+            Action.ActionData actionData = new Action.ActionData
+            {
+                position = currentPos,
+                colorBeforeAction = texture.GetPixel(currentPos.x, currentPos.y),
+                colorAfterAction = currentColor
+            };
+            actionDatas.Add(actionData);
+
+            texture.SetPixel(currentPos.x, currentPos.y, currentColor);
+
+            // Ajout des voisins à la pile
+            AddNeighborToStack(texture, stack, visited, currentPos.x - 1, currentPos.y, targetColor, currentColor); // Gauche
+            AddNeighborToStack(texture, stack, visited, currentPos.x + 1, currentPos.y, targetColor, currentColor); // Droite
+            AddNeighborToStack(texture, stack, visited, currentPos.x, currentPos.y + 1, targetColor, currentColor); // Haut
+            AddNeighborToStack(texture, stack, visited, currentPos.x, currentPos.y - 1, targetColor, currentColor); // Bas
+        }
         action.addActionDatas(actionDatas);
-
-        texture.SetPixel(position.x, position.y, currentColor);
-
-        // Appels récursifs pour les voisins
-        FillNeighbor(texture, new Vector2Int(position.x - 1, position.y), action, targetColor, currentColor, CaseType.left); // Gauche
-        FillNeighbor(texture, new Vector2Int(position.x + 1, position.y), action, targetColor, currentColor, CaseType.right); // Droite
-        FillNeighbor(texture, new Vector2Int(position.x, position.y + 1), action, targetColor, currentColor, CaseType.bot); // Haut
-        FillNeighbor(texture, new Vector2Int(position.x, position.y - 1), action, targetColor, currentColor, CaseType.top); // Bas
     }
 
-    private static void FillNeighbor(Texture2D texture, Vector2Int position, Action action, Color targetColor, Color currentColor, CaseType caseWhoCalledFunction)
+    private static void AddNeighborToStack(Texture2D texture, Stack<Vector2Int> stack, HashSet<Vector2Int> visited, int x, int y, Color targetColor, Color currentColor)
     {
-        fill(texture, position, action, targetColor, currentColor, caseWhoCalledFunction);
+        if (x >= 0 && x < texture.width && y >= 0 && y < texture.height &&
+            texture.GetPixel(x, y) == targetColor && texture.GetPixel(x, y) != currentColor)
+        {
+            stack.Push(new Vector2Int(x, y));
+        }
     }
 }

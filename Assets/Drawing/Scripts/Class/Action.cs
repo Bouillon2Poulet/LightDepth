@@ -51,7 +51,7 @@ public class Action : MonoBehaviour
     {
         if (tool == ToolsManager.Tool.pen) return "pen";
         if (tool == ToolsManager.Tool.eraser) return "eraser";
-        if (tool == ToolsManager.Tool.colorpicker) return "clrpick";
+        if (tool == ToolsManager.Tool.bucket) return "fill";
         else return "error";
     }
     public void addActionDatas(List<ActionData> actionDatasToAdd)

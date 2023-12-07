@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class CursorDatas
 {
+    public Vector2Int lastClickedPixel;
+    public Vector3 lastClickedPosition;
+
     public Vector2Int currentPixelPosition;
     public Vector2Int lastPixelPosition;
     public List<Vector2Int> overedPositionsBetweenTwoFrames;

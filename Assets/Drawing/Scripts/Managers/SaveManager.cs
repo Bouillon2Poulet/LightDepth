@@ -1,16 +1,18 @@
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 
-public class SavingToolManager : MonoBehaviour
+public class SaveManager : MonoBehaviour
 {
     public string filePath;
     public Texture2D finalColorTexture;
     public Texture2D finalHeightTexture;
+    public LayersManager LayersManager;
     public void save()
     {
         Debug.Log("Saving");
-        Texture2D colorTexture = GetComponentInParent<DrawingManagerOld>().getColorTexture();
-        Texture2D heightTexture = GetComponentInParent<DrawingManagerOld>().getHeightTexture();
+        Texture2D colorTexture = LayersManager.ColorMap.texture;
+        Texture2D heightTexture = LayersManager.HeightMap.texture;
+
         float minimumX = colorTexture.width;
         float maximumX = 0;
         float minimumY = colorTexture.height;

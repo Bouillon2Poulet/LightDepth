@@ -1,10 +1,8 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Generation3D : MonoBehaviour
+public class Loader3DManager : MonoBehaviour
 {
     public Shader defaultShader;
     private class Voxel
@@ -12,23 +10,27 @@ public class Generation3D : MonoBehaviour
         public GameObject cube;
         public float height;
     }
+
     private List<Voxel> voxels;
     public float areaWidth = 1f;
-
     public GameObject Object3D;
     public SaveManager SaveManager;
-    public void Start()
+
+    private void Start()
     {
         voxels = new List<Voxel>();
         defaultShader = Shader.Find("Universal Render Pipeline/Lit");
     }
-    public void generate3DModel()
+
+    public void load3DModel()
     {
         foreach (Voxel voxel in voxels)
         {
             Destroy(voxel.cube);
         }
         voxels.Clear();
+
+        SaveManager.save();
         Texture2D colorTexture = SaveManager.finalColorTexture;
         Texture2D heightTexture = SaveManager.finalHeightTexture;
 
@@ -45,9 +47,10 @@ public class Generation3D : MonoBehaviour
             for (int x = 0; x < colorTexture.width; x++)
             {
                 voxels.Add(new Voxel());
-                voxels.Last().cube = new GameObject();
-                voxels.Last().cube.transform.SetParent(Object3D.transform);
                 voxels.Last().cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                voxels.Last().cube.layer = LayerMask.NameToLayer("3DObject");
+                voxels.Last().cube.name = "voxel" + x + "/" + y;
+                voxels.Last().cube.transform.SetParent(Object3D.transform);
                 voxels.Last().cube.transform.position = Object3D.transform.position;
                 voxels.Last().cube.transform.Translate(new Vector3(-1f * (areaDimension.x / 2f) + (x + 0.5f) * offset, (-areaDimension.y / 2f) + (y + 0.5f) * offset), 0);
                 voxels.Last().height = heightTexture.GetPixel(x, y).grayscale == 0 ? 0.001f : heightTexture.GetPixel(x, y).grayscale * 0.4f;

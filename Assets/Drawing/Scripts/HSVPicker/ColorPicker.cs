@@ -24,12 +24,9 @@ namespace HSVPicker
         public GameObject RGBSliders;
         public GameObject RGBSlidersBackground;
         public GameObject HSVSliders;
-        public GameObject HSVSlidersBackground
-        ;
+        public GameObject HSVSlidersBackground;
 
         public bool isHeightColor;
-
-
 
         [Header("Event")]
         public ColorChangedEvent onValueChanged = new ColorChangedEvent();
@@ -56,7 +53,10 @@ namespace HSVPicker
 
         public void Update()
         {
-            if (!isHeightColor) _saturation = 0; S = 0;
+            if (isHeightColor)
+            {
+                S = 0;
+            }
         }
 
         private void Awake()

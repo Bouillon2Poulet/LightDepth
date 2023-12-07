@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using HSVPicker;
 using UnityEngine;
 
 public class ToolsManager : MonoBehaviour
@@ -24,6 +25,8 @@ public class ToolsManager : MonoBehaviour
     public GameObject tools_zoom;
     public GameObject tools_hand;
 
+    public Camera MeshCamera;
+    public ModeManager modeManager;
     public Sprite passiveBackgroundSprite;
     public Sprite activeBackgroundSprite;
 
@@ -79,10 +82,13 @@ public class ToolsManager : MonoBehaviour
                 currentTexture.Apply();
                 break;
             case Tool.colorpicker:
+                ToolColorPicker.pick(currentTexture, cursorDatas.currentPixelPosition, modeManager.getCurrentColorPicker());
                 break;
             case Tool.zoom:
+                ToolCam.zoom(cursorDatas.lastClickedPosition, ref MeshCamera);
                 break;
             case Tool.hand:
+                ToolCam.pan(cursorDatas.lastClickedPosition, ref MeshCamera);
                 break;
         }
     }

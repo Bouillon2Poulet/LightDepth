@@ -15,7 +15,7 @@ public class Preview3D_Btn : MonoBehaviour, IPointerClickHandler
         //Use this to tell when the user left-clicks on the Button
         if (pointerEventData.button == PointerEventData.InputButton.Left)
         {
-            GetComponentInParent<SavingToolManager>().save();
+            GetComponentInParent<SaveManager>().save();
         }
         //SECOND : GENERATE 3D MODEL FROM SAVED TEXTURE
         ObjectPreviewCanvas.SetActive(true);

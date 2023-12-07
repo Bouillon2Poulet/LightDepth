@@ -68,12 +68,14 @@
     <Compile Include="Assets\Drawing\Scripts\Tools\ToolPen.cs" />
     <Compile Include="Assets\Scripts\Generation3D.cs" />
     <Compile Include="Assets\Scripts\Drawing\ToolButton.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Tools\ToolCam.cs" />
     <Compile Include="Assets\Drawing\Scripts\Utilitary\IsOvered.cs" />
     <Compile Include="Assets\Drawing\Scripts\HSVPicker\ColorPresetManager.cs" />
     <Compile Include="Assets\Drawing\Scripts\Class\Layer.cs" />
     <Compile Include="Assets\Drawing\Scripts\Managers\ColorPickerManager.cs" />
     <Compile Include="Assets\Scripts\Drawing\Cursor.cs" />
     <Compile Include="Assets\Drawing\Scripts\Buttons\AddNewColorToPaletteButton.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Tools\ToolColorPicker.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingManager.cs" />
     <Compile Include="Assets\Scripts\Drawing\SaveButton.cs" />
     <Compile Include="Assets\Scripts\BUTTONS\DrawingModeBtn.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="Assets\Scripts\GetTextureDimensions.cs" />
     <Compile Include="Assets\Drawing\Scripts\HSVPicker\ColorSliderImage.cs" />
     <Compile Include="Assets\Scripts\Drawing\ActionClass.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Managers\SaveManager.cs" />
     <Compile Include="Assets\Scripts\Drawing\BackgroundTextureGenerator.cs" />
     <Compile Include="Assets\Scripts\Drawing\ColorManager.cs" />
     <Compile Include="Assets\Drawing\Scripts\Class\ActionDatas.cs" />
@@ -90,6 +93,7 @@
     <Compile Include="Assets\Drawing\Scripts\HSVPicker\ColorPresets.cs" />
     <Compile Include="Assets\Drawing\Scripts\Buttons\ToolButton.cs" />
     <Compile Include="Assets\Scripts\CameraRotation1.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Managers\3DLoaderManager.cs" />
     <Compile Include="Assets\Scripts\PixelGenerator.cs" />
     <Compile Include="Assets\Scripts\Drawing\CameraMovement.cs" />
     <Compile Include="Assets\Drawing\Scripts\Class\CursorDatas.cs" />
@@ -105,7 +109,6 @@
     <Compile Include="Assets\Drawing\Scripts\Tools\ToolEraser.cs" />
     <Compile Include="Assets\Scripts\BUTTONS\Preview3D_Btn.cs" />
     <Compile Include="Assets\Drawing\Scripts\HSVPicker\ColorLabel.cs" />
-    <Compile Include="Assets\Scripts\Drawing\SavingToolManager.cs" />
     <Compile Include="Assets\Drawing\Scripts\Tools\ToolBucket.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingName.cs" />
     <Compile Include="Assets\Drawing\Scripts\HSVPicker\SVBoxSlider.cs" />
@@ -113,6 +116,7 @@
     <Compile Include="Assets\Scripts\Drawing\CurrentColorButton.cs" />
     <Compile Include="Assets\Scripts\Drawing\DrawingToolManager.cs" />
     <Compile Include="Assets\Drawing\Scripts\Managers\ModeManager.cs" />
+    <Compile Include="Assets\Drawing\Scripts\Buttons\3DLoaderDragger.cs" />
     <Compile Include="Assets\Drawing\Scripts\Managers\ColorPaletteManager.cs" />
     <Compile Include="Assets\Drawing\Scripts\Managers\HistoryManager.cs" />
     <Compile Include="Assets\Drawing\Scripts\Managers\DrawingManager.cs" />

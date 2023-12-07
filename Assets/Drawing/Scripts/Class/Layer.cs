@@ -111,7 +111,7 @@ public class Layer : MonoBehaviour
             case LayersManager.LayerType.Background:
                 LayersManager.fillTextureWithColor(texture, Color.white); break;
             case LayersManager.LayerType.ColorMap:
-                LayersManager.fillTextureWithColor(texture, new Color(0, 0, 0, 0)); break;
+                LayersManager.fillTextureWithColor(texture, new Color(1, 1, 1, 0)); break;
             case LayersManager.LayerType.HeightMap:
                 LayersManager.fillTextureWithColor(texture, new Color(0.5f, 0.5f, 0.5f, 1)); break;
             default: return;

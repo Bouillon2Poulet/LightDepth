@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using HSVPicker;
 
 public class ModeManager : MonoBehaviour
 {
@@ -96,6 +97,16 @@ public class ModeManager : MonoBehaviour
         else
         {
             return 1;
+        }
+    }
+
+    public ColorPicker getCurrentColorPicker()
+    {
+        switch (currentMode)
+        {
+            case Mode.color: return colors_color.GetComponentInChildren<ColorPicker>();
+            case Mode.height: return colors_height.GetComponentInChildren<ColorPicker>();
+            default: return colors_color.GetComponentInChildren<ColorPicker>();
         }
     }
 }

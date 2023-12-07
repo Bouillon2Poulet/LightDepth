@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.EditorTools;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class DrawingManager : MonoBehaviour
 {
@@ -51,6 +52,9 @@ public class DrawingManager : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
             {
+                cursorData.lastClickedPixel = worldPositionToTexturePosition(hit.point);
+                ToolCam.needToUpdateLastClickedPositionToWorldPoint = true;
+                cursorData.lastClickedPosition = Input.mousePosition;
                 cursorData.currentPixelPosition = worldPositionToTexturePosition(hit.point);
                 cursorData.needForANewClick = false;
                 historyManager.newActionIfNecessary(toolsManager.currentTool, modeManager.currentMode);
@@ -66,8 +70,6 @@ public class DrawingManager : MonoBehaviour
                 {
                     cursorData.update(worldPositionToTexturePosition(hit.point));
                     toolsManager.useTool(layersManager.getCurrentLayerTexture(), cursorData, historyManager.getCurrentAction(), colorsManager.ElementAt(modeManager.getModeIndex()));
-                    // layersManager.getCurrentLayerTexture().SetPixel(cursorData.currentPixelPosition.x, cursorData.currentPixelPosition.y, Color.black);
-                    // layersManager.getCurrentLayerTexture().Apply();
                 }
 
             }
